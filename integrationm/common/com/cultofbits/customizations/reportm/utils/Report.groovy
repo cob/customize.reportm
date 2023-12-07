@@ -1,4 +1,4 @@
-package utils
+package com.cultofbits.customizations.reportm.utils
 
 import org.codehaus.groovy.runtime.InvokerHelper
 
@@ -49,3 +49,4 @@ class Report {
     }
 
 }
+

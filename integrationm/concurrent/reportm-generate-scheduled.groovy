@@ -34,6 +34,3 @@ recordm.stream("Reports", query, { hit ->
             "http://localhost:40380/concurrent/reportm-send-by-email?reportId=${reportInstance.id}"
     )
 })
-
-
-

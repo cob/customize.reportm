@@ -1,6 +1,6 @@
 import com.google.common.cache.CacheBuilder
 import groovy.transform.Field
-import utils.Report
+import com.cultofbits.customizations.reportm.utils.Report
 
 import java.util.concurrent.TimeUnit
 
@@ -61,6 +61,6 @@ reportDefinitionCache.get(definition, { loadDefinitionReports(definition) }).eac
     reportm.generateAsync(
             report.reportTmplPath,
             ["query": "id.raw:${msg.instance.id}".toString()],
-            "http://localhost:40380/concurrent/reportm-send-by-email?reportId=${id}"
+            "http://localhost:40380/concurrent/reportm-after-done?reportId=${id}&sourceInstanceId=${msg.id}"
     )
 }

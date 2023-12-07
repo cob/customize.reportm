@@ -104,7 +104,9 @@ export class Report implements ReportAttributes {
      */
     private getArgsObject() {
         const args = this.args.reduce((previousValue: { [name: string]: string | null }, currentValue: Argument) => {
-            previousValue[currentValue.name] = currentValue.value
+            if (currentValue.value !== null) {
+                previousValue[currentValue.name] = currentValue.value;
+            }
             return previousValue
         }, {})
 
