@@ -104,8 +104,15 @@ export class Report implements ReportAttributes {
      */
     private getArgsObject() {
         const args = this.args.reduce((previousValue: { [name: string]: string | null }, currentValue: Argument) => {
+<<<<<<< HEAD
             if(currentValue !== null && currentValue !== undefined){
                 previousValue[currentValue.name] = currentValue.value
+=======
+            if (currentValue.value !== null) {
+                if (currentValue) {
+                    previousValue[currentValue.name] = currentValue.value;
+                }
+>>>>>>> update-from-latest-custom-changes
             }
             return previousValue
         }, {})

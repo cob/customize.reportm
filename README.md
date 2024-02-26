@@ -7,12 +7,12 @@ Add capabilities to generate reports
 ### Add the definition to RecordM:
 
 ```text
-Definition Reports: /others/definitions/definition_reports_v14.json
+Definition Reports: /others/definitions/definition_reports_v1.json
 ```
 
 ### Configure ReportM Action Pack:
 
-Edit file `integrationm/services/com.cultofbits.intgrationm.service.properties` and add/change the following lines: 
+Edit file `/etc/integrationm/services/com.cultofbits.intgrationm.service.properties` and add/change the following lines: 
 ```text
 action.names=...,reportm
 action.reportm=reportm
