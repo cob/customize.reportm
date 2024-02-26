@@ -1,6 +1,6 @@
 import com.google.common.cache.CacheBuilder
 import groovy.transform.Field
-import utils.Report
+import com.cultofbits.customizations.reportm.Report
 
 import java.util.concurrent.TimeUnit
 

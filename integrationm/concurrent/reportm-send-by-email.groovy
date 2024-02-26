@@ -24,6 +24,3 @@ recordm.stream("Reports", "id.raw:${reportId}", { hit ->
     email.send("Report: ${reportName}".toString(), description + "\n\n", [to: emailsList, attachments: [reportFile]])
     log.info("Report email sent. {{reportFile: ${reportFile}, emails: ${emailsList} }} ")
 })
-
-
-
