@@ -73,7 +73,7 @@ cob.custom.customize.push(async function(core, utils, ui) {
 
             if (esDoc[REPORT_FIELD_NAME.toLowerCase()].length) {
 
-                if (esDoc['execution'] && (esDoc['execution'][0] === 'MANUAL' || esDoc['execution'][0] === 'SCHEDULED')) {
+                if (esDoc['trigger'] && (esDoc['trigger'][0] === 'MANUAL' || esDoc['trigger'][0] === 'SCHEDULED')) {
                     $link.text("Build report")
                     $link.addClass(CLASS_REPORT)
                     $link.attr(DATA_REPORT_ID, esDoc.instanceId)
@@ -89,7 +89,7 @@ cob.custom.customize.push(async function(core, utils, ui) {
         ReportmUI.executeReport({
             reportId,
             reportQuery,
-            containerId: "cob-app-RecordM"
+            containerId: core.getAppInstanceId()
         }, {
             core, ui
         })
@@ -142,8 +142,8 @@ cob.custom.customize.push(async function(core, utils, ui) {
 
                 const _$totalAffected = $("div.js-select-all-container.hidden > span.js-total-selected")
                 const totalAffected = _$totalAffected.length > 0
-                                      ? parseInt(_$totalAffected[0].innerText.replaceAll(/[\.,]/g, ""), 10)
-                                      : 0
+                    ? parseInt(_$totalAffected[0].innerText.replaceAll(/[\.,]/g, ""), 10)
+                    : 0
 
                 executeReport(reportIndexedInstance.id, {total: totalAffected, query})
             }

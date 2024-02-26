@@ -1,12 +1,13 @@
 import $ from "jquery";
 import {Argument, ArgumentType, CobApp, ReportAttributes, ReportQuery} from "@/model/Types";
 
+const FIELD_IDENTIFICATION_BLOCK = "Identification";
+const FIELD_ONDONE_BLOCK = "On Done Actions";
+
 const FIELD_REPORT_NAME = "Name";
 const FIELD_REPORT_DESCRIPTION = "Description";
 const FIELD_REPORT_EMAILS = "Emails";
 const FIELD_REPORT_TEMPLATE = "Template";
-const FIELD_REPORT_EXECUTION_TYPE = "Execution";
-const FIELD_REPORT_ARGS = "Arguments";
 
 export class Report implements ReportAttributes {
     readonly id: number
@@ -104,8 +105,10 @@ export class Report implements ReportAttributes {
      */
     private getArgsObject() {
         const args = this.args.reduce((previousValue: { [name: string]: string | null }, currentValue: Argument) => {
-            if(currentValue !== null && currentValue !== undefined){
-                previousValue[currentValue.name] = currentValue.value
+            if (currentValue.value !== null) {
+                if (currentValue) {
+                    previousValue[currentValue.name] = currentValue.value;
+                }
             }
             return previousValue
         }, {})
@@ -118,7 +121,11 @@ export class Report implements ReportAttributes {
         return args;
     }
 
-    static async getReportInstance(request: { reportId: number, reportQuery?: ReportQuery, containerId: string }, cobApp: CobApp): Promise<Report> {
+    static async getReportInstance(request: {
+        reportId: number,
+        reportQuery?: ReportQuery,
+        containerId: string
+    }, cobApp: CobApp): Promise<Report> {
         const instance: any = await (new Promise((resolve) => {
                 // @ts-ignore
                 $.ajax({
@@ -133,27 +140,13 @@ export class Report implements ReportAttributes {
             })
         )
 
-        const name = instance.fields.find((field: any) => field.fieldDefinition.name === FIELD_REPORT_NAME).value
-        const description = instance.fields.find((field: any) => field.fieldDefinition.name === FIELD_REPORT_DESCRIPTION).value
-        const emails = instance.fields.find((field: any) => field.fieldDefinition.name === FIELD_REPORT_EMAILS).value
-        const reportTmpl = Report.getRelativePath(instance.id, instance.fields.find((field: any) => field.fieldDefinition.name === FIELD_REPORT_TEMPLATE))
-        const args = instance.fields
-            .filter((field: any) => field.fieldDefinition.name === FIELD_REPORT_EXECUTION_TYPE && field.value === 'MANUAL')
-            .flatMap((field: any) => field.fields)
-            .filter((field: any) => field.fieldDefinition.name === FIELD_REPORT_ARGS)
-            .filter((argumentGroupField: any) => argumentGroupField.fields[0].value) // name field must have a value
-            .map((argumentGroupField: any) => {
-                const fields = argumentGroupField.fields
-                const name = fields[0].value
-                const type = (fields[1].value as string)?.toLocaleUpperCase()
+        const identificationField = instance.fields.find((field: any) => field.fieldDefinition.name === FIELD_IDENTIFICATION_BLOCK)
+        const onDoneField = instance.fields.find((field: any) => field.fieldDefinition.name === FIELD_ONDONE_BLOCK)
 
-                return {
-                    name,
-                    // https://bobbyhadz.com/blog/typescript-no-index-signature-with-parameter-of-type-string#:~:text=The%20error%20%22No%20index%20signature,keys%20using%20keyof%20typeof%20obj%20.
-                    // If no type match then fallback to TEXT
-                    type: ArgumentType[type as keyof typeof ArgumentType] ?? ArgumentType.TEXT
-                }
-            })
+        const name = identificationField.fields.find((field: any) => field.fieldDefinition.name === FIELD_REPORT_NAME).value
+        const description = identificationField.fields.find((field: any) => field.fieldDefinition.name === FIELD_REPORT_DESCRIPTION).value
+        const emails = onDoneField.fields.find((field: any) => field.fieldDefinition.name === FIELD_REPORT_EMAILS).value
+        const reportTmpl = Report.getRelativePath(instance.id, identificationField.fields.find((field: any) => field.fieldDefinition.name === FIELD_REPORT_TEMPLATE))
 
         return new Report({
             id: request.reportId,
@@ -161,7 +154,7 @@ export class Report implements ReportAttributes {
             description,
             emails,
             reportTmpl,
-            args,
+            args: [],
             reportQuery: request.reportQuery
         }, cobApp)
     }

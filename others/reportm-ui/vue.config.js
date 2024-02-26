@@ -15,7 +15,6 @@ module.exports = defineConfig({
     configureWebpack: {
         output: {
             filename: filename + ".js",
-            libraryTarget: "umd",
             libraryExport: "default",
         },
         externals: {

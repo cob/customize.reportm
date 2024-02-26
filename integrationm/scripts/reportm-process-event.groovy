@@ -1,6 +1,6 @@
 import com.google.common.cache.CacheBuilder
 import groovy.transform.Field
-import com.cultofbits.customizations.reportm.Report
+import com.cultofbits.customizations.reportm.utils.Report
 
 import java.util.concurrent.TimeUnit
 
@@ -16,11 +16,12 @@ if (msg.product != "recordm" || msg.user == "integrationm") return
 if (msg.product == "recordm" && msg.type == "Reports") {
     log.info("Invalidating Reports cache")
     reportDefinitionCache.invalidateAll()
+    return
 }
 
 def loadDefinitionReports(definitionName) {
     def reportsMap = [:]
-    recordm.stream("Reports", "definition:${definitionName} AND template:* AND execution:EVENT", { hit ->
+    recordm.stream("Reports", "definition:${definitionName} AND template:* AND trigger:EVENT", { hit ->
         log.info("Populating cache for definition reports. Definition=${definitionName}")
 
         try {
@@ -61,6 +62,6 @@ reportDefinitionCache.get(definition, { loadDefinitionReports(definition) }).eac
     reportm.generateAsync(
             report.reportTmplPath,
             ["query": "id.raw:${msg.instance.id}".toString()],
-            "http://localhost:40380/concurrent/reportm-send-by-email?reportId=${id}"
+            "http://localhost:40380/concurrent/reportm-after-done?reportId=${id}&sourceInstanceId=${msg.id}"
     )
 }

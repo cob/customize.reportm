@@ -18,7 +18,7 @@ npm run serve
 
 ```
 (cd others/reportm-ui && npm run build-lib \
-  && cp dist/ReportmUI.umd.min.js ../../recordm/customUI/js/lib/ReportmUI.umd.min.js \
+  && cp dist/ReportmUI.umd.min.js ../../recordm/customUI/js/cob/ReportmUI.umd.min.js \
   && cp dist/ReportmUI.css ../../recordm/customUI/css/ReportmUI.css)
 ```
 
