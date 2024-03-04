@@ -73,7 +73,7 @@ export class Report implements ReportAttributes {
             report: this.reportTmpl,
             arguments: this.getArgsObject(),
             callback: {
-                url: `http://localhost:40380/concurrent/reportm-send-by-email?reportId=${this.id}&emails=${encodeURIComponent(emails)}`,
+                url: `http://localhost:40380/concurrent/reportm-on-done?reportId=${this.id}&emails=${encodeURIComponent(emails)}`,
                 auth: {
                     type: "COB"
                 }

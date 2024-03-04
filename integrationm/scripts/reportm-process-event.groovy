@@ -1,6 +1,7 @@
+import com.cultofbits.integrationm.service.dictionary.recordm.RecordmSearchHit
 import com.google.common.cache.CacheBuilder
 import groovy.transform.Field
-import com.cultofbits.customizations.reportm.utils.Report
+import com.cultofbits.customizations.reportm.model.Report
 
 import java.util.concurrent.TimeUnit
 
@@ -20,13 +21,14 @@ if (msg.product == "recordm" && msg.type == "Reports") {
 }
 
 def loadDefinitionReports(definitionName) {
-    def reportsMap = [:]
-    recordm.stream("Reports", "definition:${definitionName} AND template:* AND trigger:EVENT", { hit ->
+    Map<Integer, Report> reportsMap = [:]
+
+    recordm.stream("Reports", "definition:${definitionName} AND template:* AND trigger:EVENT", { RecordmSearchHit hit ->
         log.info("Populating cache for definition reports. Definition=${definitionName}")
 
         try {
-            Report report = new Report(recordm, hit)
-            reportsMap[report.id] = report
+            Report report = new Report(recordm.get(hit.id).getBody(), reportm)
+            reportsMap[report.Id] = report
 
         } catch (Exception e) {
             log.error("Error processing report {{ reportId:${hit.getId()} }}", e)
@@ -42,7 +44,9 @@ def loadDefinitionReports(definitionName) {
 // ========================================================================================================
 
 def definition = msg.type
-reportDefinitionCache.get(definition, { loadDefinitionReports(definition) }).each { reportEntry ->
+
+reportDefinitionCache.get(definition, { loadDefinitionReports(definition) })
+        .each { reportEntry ->
 
     def id = reportEntry.key
     def report = reportEntry.value
@@ -59,9 +63,5 @@ reportDefinitionCache.get(definition, { loadDefinitionReports(definition) }).eac
         return
     }
 
-    reportm.generateAsync(
-            report.reportTmplPath,
-            ["query": "id.raw:${msg.instance.id}".toString()],
-            "http://localhost:40380/concurrent/reportm-after-done?reportId=${id}&sourceInstanceId=${msg.id}"
-    )
+    report.generateAsync()
 }

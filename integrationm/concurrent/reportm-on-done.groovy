@@ -1,54 +1,53 @@
+import com.cultofbits.customizations.reportm.utils.TemplateUtils
+
 def reportId = argsMap["reportId"]
-def emails = argsMap["emails"]
 def reportFile = argsMap["report"]
+def emails = argsMap["emails"] as String
+def variables = argsMap["variables"] as Map<String, Object>
 
 if (reportId == null || reportFile == null) return
 
-recordm.stream("Reports", "id.raw:${reportId}", { hit ->
-    def reportName = hit.value('name')
-    def description = hit.value('description')
+def reportInstanceResponse = recordm.get(reportId.toInteger())
+if (!reportInstanceResponse.success()) {
+    return json(404, ["success": false])
+}
 
-    if (description == null) {
-        description = ""
-    }
+def reportmInstance = reportInstanceResponse.getBody()
 
-    hit.values("Actions").each {
-        action ->
-            switch (action) {
-                case "Send Email":
+reportmInstance.values("Actions").each {
+    action ->
+        switch (action) {
+            case "Send Email":
 
-                    def finalEmails = emails != null ? emails : hit.value('emails')
-                    if (finalEmails == null || finalEmails.trim().length() == 0) {
-                        log.info("Stopping sending the report. No emails to send")
-                        return
-                    }
+                def emailAddresses = emails != null ? emails.split(";").findAll { it != null } : TemplateUtils.apply(reportmInstance.value("Destinations"), variables)
+                def emailSubject = TemplateUtils.apply(reportmInstance.value("Subject"), variables)
+                def emailBody = TemplateUtils.apply(reportmInstance.value("Body"), variables)
 
-                    def emailsList = finalEmails.split(";").findAll { it != null }
-                    email.send("Report: ${reportName}".toString(), description + "\n\n", [to: emailsList, attachments: [reportFile]])
-                    log.info("Report email sent. {{reportFile: ${reportFile}, emails: ${emailsList} }} ")
+                email.send(emailSubject, emailBody + "\n\n", [to: emailAddresses, attachments: [reportFile]])
+                log.info("Report email sent. {{reportFile: ${reportFile}, emails: ${emailAddresses} }} ")
 
-                    return
+                return
 
-                case "Attach to Instance":
-                    def instanceId = argsMap["sourceInstanceId"]
-                    if (instanceId == null) {
-                        log.error("Instance not provided to attach the repoort")
-                    }
+            case "Attach to Instance":
+                def instanceId = argsMap["sourceInstanceId"]
+                if (instanceId == null) {
+                    log.error("Instance not provided to attach the repoort")
+                }
 
-                    def targetField = hit.value("Definition Field")
-                    def fileReport = new File(reportFile.toString())
+                def targetField = reportmInstance.value("Definition Field")
+                def fileReport = new File(reportFile.toString())
 
-                    def instance = recordm.get(instanceId)
-                    recordm.attach(instanceId.toInteger(), targetField, fileReport.getName(), fileReport)
-                    recordm.update(hit.value("Definition"), instanceId, [(targetField): fileReport.getName()])
+                def instance = recordm.get(instanceId)
+                recordm.attach(instanceId.toInteger(), targetField, fileReport.getName(), fileReport)
+                recordm.update(reportmInstance.value("Definition"), instanceId, [(targetField): fileReport.getName()])
+                log.info("Report uploaded to instance. {{instanceId: ${instanceId}, reportFile: ${reportFile} }} ")
 
-                    return;
+                return;
 
-                default:
-                    log.error("Unsupported on done action {{action: ${action} }}")
-            }
-    }
-})
+            default:
+                log.error("Unsupported on done action {{action: ${action} }}")
+        }
+}
 
 
 

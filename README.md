@@ -31,3 +31,13 @@ crontab -e
 0 * * * * /opt/others/scripts/generate-report.sh
 
 ```
+
+## Build & test
+
+```bash
+./run-tests.sh
+```
+
+### Definition Upgrades:
+
+See [readme](./others/customize.reportm/README.MD)

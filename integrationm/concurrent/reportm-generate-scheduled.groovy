@@ -1,4 +1,5 @@
-import com.cultofbits.customizations.reportm.Report
+import com.cultofbits.customizations.reportm.model.Report
+
 import java.time.LocalDateTime
 import java.time.ZoneId
 
@@ -27,10 +28,5 @@ def query = "execution:SCHEDULED AND template:* AND emails:* AND ( " +
 log.info("Executing scheduled reports that match query [query= ${query}]")
 
 recordm.stream("Reports", query, { hit ->
-    def reportInstance = recordm.get(hit.getId()).body
-
-    reportm.generateAsync(
-            Report.getReportRelativeFilePath(hit.id, reportInstance.fields.find { field -> field.fieldDefinition.name == "Template" }),
-            "http://localhost:40380/concurrent/reportm-send-by-email?reportId=${reportInstance.id}"
-    )
+    new Report(recordm.get(hit.getId()).body, reportm).executeAsync()
 })
