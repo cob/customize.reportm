@@ -1,6 +1,5 @@
 package com.cultofbits.customizations.reportm.model
 
-import com.cultofbits.integrationm.service.actionpack.EmailActionPack
 import com.cultofbits.integrationm.service.actionpack.ReportmActionPack
 import com.cultofbits.integrationm.service.dictionary.recordm.RecordmInstance
 import org.codehaus.groovy.runtime.InvokerHelper
