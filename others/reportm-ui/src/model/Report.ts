@@ -1,12 +1,12 @@
 import $ from "jquery";
-import {Argument, ArgumentType, CobApp, ReportAttributes, ReportQuery} from "@/model/Types";
+import {Argument, ArgumentType, CobApp, ReportAttributes, ReportQuery, Variable} from "@/model/Types";
 
 const FIELD_IDENTIFICATION_BLOCK = "Identification";
 const FIELD_ONDONE_BLOCK = "On Done Actions";
 
 const FIELD_REPORT_NAME = "Name";
 const FIELD_REPORT_DESCRIPTION = "Description";
-const FIELD_REPORT_EMAILS = "Emails";
+const FIELD_REPORT_EMAILS = "Destinations";
 const FIELD_REPORT_TEMPLATE = "Template";
 
 export class Report implements ReportAttributes {
@@ -18,6 +18,7 @@ export class Report implements ReportAttributes {
 
     readonly reportQuery?: ReportQuery
     readonly args: Argument[] = []
+    readonly variables: Variable[] = []
 
     private cobApp: CobApp
 
@@ -28,6 +29,7 @@ export class Report implements ReportAttributes {
         this.emails = reportAttributes.emails
         this.reportTmpl = reportAttributes.reportTmpl
         this.args = reportAttributes.args ?? []
+        this.variables = reportAttributes.variables ?? []
         this.reportQuery = reportAttributes.reportQuery
 
         this.cobApp = cobApp
@@ -72,6 +74,7 @@ export class Report implements ReportAttributes {
         const payload = {
             report: this.reportTmpl,
             arguments: this.getArgsObject(),
+            variables: this.variables,
             callback: {
                 url: `http://localhost:40380/concurrent/reportm-on-done?reportId=${this.id}&emails=${encodeURIComponent(emails)}`,
                 auth: {
@@ -141,12 +144,19 @@ export class Report implements ReportAttributes {
         )
 
         const identificationField = instance.fields.find((field: any) => field.fieldDefinition.name === FIELD_IDENTIFICATION_BLOCK)
-        const onDoneField = instance.fields.find((field: any) => field.fieldDefinition.name === FIELD_ONDONE_BLOCK)
 
         const name = identificationField.fields.find((field: any) => field.fieldDefinition.name === FIELD_REPORT_NAME).value
         const description = identificationField.fields.find((field: any) => field.fieldDefinition.name === FIELD_REPORT_DESCRIPTION).value
-        const emails = onDoneField.fields.find((field: any) => field.fieldDefinition.name === FIELD_REPORT_EMAILS).value
         const reportTmpl = Report.getRelativePath(instance.id, identificationField.fields.find((field: any) => field.fieldDefinition.name === FIELD_REPORT_TEMPLATE))
+
+        const onDoneField = instance.fields.find((field: any) => field.fieldDefinition.name === FIELD_ONDONE_BLOCK)
+        const emailBuilderField = onDoneField.fields.find((field: any) => field.fieldDefinition.name === "Email Builder")
+
+        const variables = emailBuilderField.fields.filter((field: any) => field.fieldDefinition.name === "Variable Mapping")
+            .map((varMap: any) => ({name: varMap.fields[0].value, cellReference: varMap.fields[1].value}))
+
+        const emails = emailBuilderField.fields.find((field: any) => field.fieldDefinition.name === FIELD_REPORT_EMAILS)
+            .value
 
         return new Report({
             id: request.reportId,
@@ -155,6 +165,7 @@ export class Report implements ReportAttributes {
             emails,
             reportTmpl,
             args: [],
+            variables,
             reportQuery: request.reportQuery
         }, cobApp)
     }

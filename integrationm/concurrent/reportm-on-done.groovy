@@ -1,9 +1,11 @@
 import com.cultofbits.customizations.reportm.utils.TemplateUtils
+import groovy.json.JsonSlurper
 
 def reportId = argsMap["reportId"]
 def reportFile = argsMap["report"]
 def emails = argsMap["emails"] as String
-def variables = argsMap["variables"] as Map<String, Object>
+
+def variables = new JsonSlurper().parseText(argsMap["variables"] ?: "{}")
 
 if (reportId == null || reportFile == null) return
 
@@ -20,16 +22,19 @@ reportmInstance.values("Actions").each {
             case "Send Email":
 
                 Map<String, Object> finalVariables = [:]
-                finalVariables["name"] = reportmInstance.value("Name")
-                finalVariables["description"] = reportmInstance.value("description")
-                finalVariables["sourceInstanceId"] = argsMap["sourceInstanceId"]
+                finalVariables["REPORT_NAME"] = reportmInstance.value("Name")
+                finalVariables["REPORT_DESCRIPTION"] = reportmInstance.value("Description")
+                finalVariables["REPORT_SOURCE_INSTANCE_ID"] = argsMap["sourceInstanceId"]
                 finalVariables.putAll(variables)
 
-                def emailAddresses = emails != null ? emails.split(";").findAll { it != null } : TemplateUtils.apply(reportmInstance.value("Destinations"), finalVariables)
+                def emailAddresses = emails != null
+                        ? TemplateUtils.apply(emails, finalVariables)
+                        : TemplateUtils.apply(reportmInstance.value("Destinations"), finalVariables)
+
                 def emailSubject = TemplateUtils.apply(reportmInstance.value("Subject"), finalVariables)
                 def emailBody = TemplateUtils.apply(reportmInstance.value("Body"), finalVariables)
 
-                email.send(emailSubject, emailBody + "\n\n", [to: emailAddresses, attachments: [reportFile]])
+                email.send(emailSubject, emailBody + "<br><br>", [to: emailAddresses.split(";").findAll { it != null }, attachments: [reportFile]])
                 log.info("Report email sent. {{reportFile: ${reportFile}, emails: ${emailAddresses} }} ")
 
                 return

@@ -52,8 +52,8 @@ reportDefinitionCache.get(definition, { loadDefinitionReports(definition) })
     def report = reportEntry.value
 
     try {
-        if (!report.evaluateCondition(msg, log)) {
-            return
+        if (report.evaluateCondition(msg, log)) {
+            report.generateAsync()
         }
     } catch (Exception e) {
         log.warn("Error evaluating condition of report. {{" +
@@ -62,6 +62,4 @@ reportDefinitionCache.get(definition, { loadDefinitionReports(definition) })
                 "errorMsg: ${e.getMessage()}}", e)
         return
     }
-
-    report.generateAsync()
 }
