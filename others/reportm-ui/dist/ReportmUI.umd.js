@@ -23943,15 +23943,17 @@ var external_jQuery_default = /*#__PURE__*/__webpack_require__.n(external_jQuery
 
 
 
+
+
 var FIELD_IDENTIFICATION_BLOCK = "Identification";
 var FIELD_ONDONE_BLOCK = "On Done Actions";
 var FIELD_REPORT_NAME = "Name";
 var FIELD_REPORT_DESCRIPTION = "Description";
-var FIELD_REPORT_EMAILS = "Emails";
+var FIELD_REPORT_EMAILS = "Destinations";
 var FIELD_REPORT_TEMPLATE = "Template";
 var Report = /*#__PURE__*/function () {
   function Report(reportAttributes, cobApp) {
-    var _reportAttributes$arg;
+    var _reportAttributes$arg, _reportAttributes$var;
 
     classCallCheck_classCallCheck(this, Report);
 
@@ -23969,6 +23971,8 @@ var Report = /*#__PURE__*/function () {
 
     _defineProperty(this, "args", []);
 
+    _defineProperty(this, "variables", []);
+
     _defineProperty(this, "cobApp", void 0);
 
     this.id = reportAttributes.id;
@@ -23977,6 +23981,7 @@ var Report = /*#__PURE__*/function () {
     this.emails = reportAttributes.emails;
     this.reportTmpl = reportAttributes.reportTmpl;
     this.args = (_reportAttributes$arg = reportAttributes.args) !== null && _reportAttributes$arg !== void 0 ? _reportAttributes$arg : [];
+    this.variables = (_reportAttributes$var = reportAttributes.variables) !== null && _reportAttributes$var !== void 0 ? _reportAttributes$var : [];
     this.reportQuery = reportAttributes.reportQuery;
     this.cobApp = cobApp;
   }
@@ -24028,8 +24033,9 @@ var Report = /*#__PURE__*/function () {
                 payload = {
                   report: this.reportTmpl,
                   arguments: this.getArgsObject(),
+                  variables: this.variables,
                   callback: {
-                    url: "http://localhost:40380/concurrent/reportm-send-by-email?reportId=".concat(this.id, "&emails=").concat(encodeURIComponent(emails)),
+                    url: "http://localhost:40380/concurrent/reportm-on-done?reportId=".concat(this.id, "&emails=").concat(encodeURIComponent(emails)),
                     auth: {
                       type: "COB"
                     }
@@ -24103,7 +24109,7 @@ var Report = /*#__PURE__*/function () {
     key: "getReportInstance",
     value: function () {
       var _getReportInstance = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(request, cobApp) {
-        var instance, identificationField, onDoneField, name, description, emails, reportTmpl;
+        var instance, identificationField, name, description, reportTmpl, onDoneField, emailBuilderField, variables, emails;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -24131,21 +24137,32 @@ var Report = /*#__PURE__*/function () {
                 identificationField = instance.fields.find(function (field) {
                   return field.fieldDefinition.name === FIELD_IDENTIFICATION_BLOCK;
                 });
-                onDoneField = instance.fields.find(function (field) {
-                  return field.fieldDefinition.name === FIELD_ONDONE_BLOCK;
-                });
                 name = identificationField.fields.find(function (field) {
                   return field.fieldDefinition.name === FIELD_REPORT_NAME;
                 }).value;
                 description = identificationField.fields.find(function (field) {
                   return field.fieldDefinition.name === FIELD_REPORT_DESCRIPTION;
                 }).value;
-                emails = onDoneField.fields.find(function (field) {
-                  return field.fieldDefinition.name === FIELD_REPORT_EMAILS;
-                }).value;
                 reportTmpl = Report.getRelativePath(instance.id, identificationField.fields.find(function (field) {
                   return field.fieldDefinition.name === FIELD_REPORT_TEMPLATE;
                 }));
+                onDoneField = instance.fields.find(function (field) {
+                  return field.fieldDefinition.name === FIELD_ONDONE_BLOCK;
+                });
+                emailBuilderField = onDoneField.fields.find(function (field) {
+                  return field.fieldDefinition.name === "Email Builder";
+                });
+                variables = emailBuilderField.fields.filter(function (field) {
+                  return field.fieldDefinition.name === "Variable Mapping";
+                }).map(function (varMap) {
+                  return {
+                    name: varMap.fields[0].value,
+                    cellReference: varMap.fields[1].value
+                  };
+                });
+                emails = emailBuilderField.fields.find(function (field) {
+                  return field.fieldDefinition.name === FIELD_REPORT_EMAILS;
+                }).value;
                 return _context2.abrupt("return", new Report({
                   id: request.reportId,
                   name: name,
@@ -24153,10 +24170,11 @@ var Report = /*#__PURE__*/function () {
                   emails: emails,
                   reportTmpl: reportTmpl,
                   args: [],
+                  variables: variables,
                   reportQuery: request.reportQuery
                 }, cobApp));
 
-              case 10:
+              case 12:
               case "end":
                 return _context2.stop();
             }
