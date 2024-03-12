@@ -1,5 +1,5 @@
 import $ from "jquery";
-import {Argument, ArgumentType, CobApp, ReportAttributes, ReportQuery, Variable} from "@/model/Types";
+import { Argument, CobApp, Extract, ReportAttributes, ReportQuery } from "@/model/Types";
 
 const FIELD_IDENTIFICATION_BLOCK = "Identification";
 const FIELD_ONDONE_BLOCK = "On Done Actions";
@@ -18,7 +18,7 @@ export class Report implements ReportAttributes {
 
     readonly reportQuery?: ReportQuery
     readonly args: Argument[] = []
-    readonly variables: Variable[] = []
+    readonly extracts: Extract[] = []
 
     private cobApp: CobApp
 
@@ -29,7 +29,7 @@ export class Report implements ReportAttributes {
         this.emails = reportAttributes.emails
         this.reportTmpl = reportAttributes.reportTmpl
         this.args = reportAttributes.args ?? []
-        this.variables = reportAttributes.variables ?? []
+        this.extracts = reportAttributes.extracts ?? []
         this.reportQuery = reportAttributes.reportQuery
 
         this.cobApp = cobApp
@@ -74,7 +74,7 @@ export class Report implements ReportAttributes {
         const payload = {
             report: this.reportTmpl,
             arguments: this.getArgsObject(),
-            variables: this.variables,
+            extracts: this.extracts,
             callback: {
                 url: `http://localhost:40380/concurrent/reportm-on-done?reportId=${this.id}&emails=${encodeURIComponent(emails)}`,
                 auth: {
@@ -152,7 +152,7 @@ export class Report implements ReportAttributes {
         const onDoneField = instance.fields.find((field: any) => field.fieldDefinition.name === FIELD_ONDONE_BLOCK)
         const emailBuilderField = onDoneField.fields.find((field: any) => field.fieldDefinition.name === "Email Builder")
 
-        const variables = emailBuilderField.fields.filter((field: any) => field.fieldDefinition.name === "Variable Mapping")
+        const extracts = emailBuilderField.fields.filter((field: any) => field.fieldDefinition.name === "Variable Mapping")
             .map((varMap: any) => ({name: varMap.fields[0].value, cellReference: varMap.fields[1].value}))
 
         const emails = emailBuilderField.fields.find((field: any) => field.fieldDefinition.name === FIELD_REPORT_EMAILS)
@@ -165,7 +165,7 @@ export class Report implements ReportAttributes {
             emails,
             reportTmpl,
             args: [],
-            variables,
+            extracts,
             reportQuery: request.reportQuery
         }, cobApp)
     }

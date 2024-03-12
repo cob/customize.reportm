@@ -9,7 +9,7 @@ export interface Argument {
     value?: any
 }
 
-export interface Variable {
+export interface Extract {
     name: string
     cellReference: string
 }
@@ -21,7 +21,7 @@ export interface ReportAttributes {
     emails?: string
     reportTmpl: string
     args: Argument[]
-    variables: Variable[]
+    extracts: Extract[]
     reportQuery?: ReportQuery
 }
 

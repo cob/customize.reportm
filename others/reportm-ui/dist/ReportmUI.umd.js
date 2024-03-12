@@ -23953,7 +23953,7 @@ var FIELD_REPORT_EMAILS = "Destinations";
 var FIELD_REPORT_TEMPLATE = "Template";
 var Report = /*#__PURE__*/function () {
   function Report(reportAttributes, cobApp) {
-    var _reportAttributes$arg, _reportAttributes$var;
+    var _reportAttributes$arg, _reportAttributes$ext;
 
     classCallCheck_classCallCheck(this, Report);
 
@@ -23971,7 +23971,7 @@ var Report = /*#__PURE__*/function () {
 
     _defineProperty(this, "args", []);
 
-    _defineProperty(this, "variables", []);
+    _defineProperty(this, "extracts", []);
 
     _defineProperty(this, "cobApp", void 0);
 
@@ -23981,7 +23981,7 @@ var Report = /*#__PURE__*/function () {
     this.emails = reportAttributes.emails;
     this.reportTmpl = reportAttributes.reportTmpl;
     this.args = (_reportAttributes$arg = reportAttributes.args) !== null && _reportAttributes$arg !== void 0 ? _reportAttributes$arg : [];
-    this.variables = (_reportAttributes$var = reportAttributes.variables) !== null && _reportAttributes$var !== void 0 ? _reportAttributes$var : [];
+    this.extracts = (_reportAttributes$ext = reportAttributes.extracts) !== null && _reportAttributes$ext !== void 0 ? _reportAttributes$ext : [];
     this.reportQuery = reportAttributes.reportQuery;
     this.cobApp = cobApp;
   }
@@ -24033,7 +24033,7 @@ var Report = /*#__PURE__*/function () {
                 payload = {
                   report: this.reportTmpl,
                   arguments: this.getArgsObject(),
-                  variables: this.variables,
+                  extracts: this.extracts,
                   callback: {
                     url: "http://localhost:40380/concurrent/reportm-on-done?reportId=".concat(this.id, "&emails=").concat(encodeURIComponent(emails)),
                     auth: {
@@ -24109,7 +24109,7 @@ var Report = /*#__PURE__*/function () {
     key: "getReportInstance",
     value: function () {
       var _getReportInstance = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(request, cobApp) {
-        var instance, identificationField, name, description, reportTmpl, onDoneField, emailBuilderField, variables, emails;
+        var instance, identificationField, name, description, reportTmpl, onDoneField, emailBuilderField, extracts, emails;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -24152,7 +24152,7 @@ var Report = /*#__PURE__*/function () {
                 emailBuilderField = onDoneField.fields.find(function (field) {
                   return field.fieldDefinition.name === "Email Builder";
                 });
-                variables = emailBuilderField.fields.filter(function (field) {
+                extracts = emailBuilderField.fields.filter(function (field) {
                   return field.fieldDefinition.name === "Variable Mapping";
                 }).map(function (varMap) {
                   return {
@@ -24170,7 +24170,7 @@ var Report = /*#__PURE__*/function () {
                   emails: emails,
                   reportTmpl: reportTmpl,
                   args: [],
-                  variables: variables,
+                  extracts: extracts,
                   reportQuery: request.reportQuery
                 }, cobApp));
 

@@ -5,7 +5,7 @@ def reportId = argsMap["reportId"]
 def reportFile = argsMap["report"]
 def emails = argsMap["emails"] as String
 
-def variables = new JsonSlurper().parseText(argsMap["variables"] ?: "{}")
+def variables = new JsonSlurper().parseText(argsMap["extracts"] ?: "{}")
 
 if (reportId == null || reportFile == null) return
 
