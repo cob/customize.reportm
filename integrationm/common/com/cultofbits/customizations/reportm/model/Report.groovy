@@ -15,6 +15,7 @@ class Report {
     private String name;
     private String description;
     private String reportTmplPath;
+    private Map<String, String> extracts;
 
     private Class conditionScriptClass
 
@@ -26,6 +27,12 @@ class Report {
         this.name = recordmInstance.value("Name")
         this.description = recordmInstance.value("Description")
         this.reportTmplPath = getReportRelativeFilePath(this.id, recordmInstance.fields.find { field -> field.fieldDefinition.name == "Template" })
+
+        this.extracts = [:]
+        recordmInstance.fields
+                .findAll { fieldInfo -> fieldInfo.fieldDefinition.name == "Variable Mapping" }
+                .collect { field -> field.fields }
+                .each { fields -> extracts[fields[0].value] = fields[1].value }
 
         def trigger = recordmInstance.value("Trigger")
         if (trigger == "EVENT") {
@@ -54,8 +61,8 @@ class Report {
 
     def executeAsync() {
         Map<String, Object> args = ["query": "id.raw:${id}".toString()]
-        def callbackUri = "http://localhost:40380/concurrent/reportm-after-done?reportId=${id}&sourceInstanceId=${id}"
-        reportm.generateAsync(reportTmplPath, args, callbackUri)
+        def callbackUri = "http://localhost:40380/concurrent/reportm-on-done?reportId=${id}&sourceInstanceId=${id}"
+        reportm.generateAsync(reportTmplPath, args, extracts, callbackUri)
     }
 
     static String getReportRelativeFilePath(reportId, reportTmplFileField) {

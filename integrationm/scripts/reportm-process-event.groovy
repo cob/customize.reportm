@@ -1,7 +1,7 @@
+import com.cultofbits.customizations.reportm.model.Report
 import com.cultofbits.integrationm.service.dictionary.recordm.RecordmSearchHit
 import com.google.common.cache.CacheBuilder
 import groovy.transform.Field
-import com.cultofbits.customizations.reportm.model.Report
 
 import java.util.concurrent.TimeUnit
 
@@ -28,7 +28,7 @@ def loadDefinitionReports(definitionName) {
 
         try {
             Report report = new Report(recordm.get(hit.id).getBody(), reportm)
-            reportsMap[report.Id] = report
+            reportsMap[report.id] = report
 
         } catch (Exception e) {
             log.error("Error processing report {{ reportId:${hit.getId()} }}", e)
@@ -48,18 +48,18 @@ def definition = msg.type
 reportDefinitionCache.get(definition, { loadDefinitionReports(definition) })
         .each { reportEntry ->
 
-    def id = reportEntry.key
-    def report = reportEntry.value
+            def id = reportEntry.key
+            def report = reportEntry.value
 
-    try {
-        if (report.evaluateCondition(msg, log)) {
-            report.generateAsync()
+            try {
+                if (report.evaluateCondition(msg, log)) {
+                    report.executeAsync()
+                }
+            } catch (Exception e) {
+                log.warn("Error evaluating condition of report. {{" +
+                        "reportId: ${id}, " +
+                        "reportName: ${report.name}, " +
+                        "errorMsg: ${e.getMessage()}}", e)
+                return
+            }
         }
-    } catch (Exception e) {
-        log.warn("Error evaluating condition of report. {{" +
-                "reportId: ${id}, " +
-                "reportName: ${report.name}, " +
-                "errorMsg: ${e.getMessage()}}", e)
-        return
-    }
-}
