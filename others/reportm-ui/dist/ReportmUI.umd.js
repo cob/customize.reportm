@@ -23926,7 +23926,15 @@ var es_array_find = __webpack_require__(9826);
 // EXTERNAL MODULE: external "jQuery"
 var external_jQuery_ = __webpack_require__(1145);
 var external_jQuery_default = /*#__PURE__*/__webpack_require__.n(external_jQuery_);
+;// CONCATENATED MODULE: ./src/model/Types.ts
+var ArgumentType;
+
+(function (ArgumentType) {
+  ArgumentType["TEXT"] = "TEXT";
+  ArgumentType["DATE"] = "DATE";
+})(ArgumentType || (ArgumentType = {}));
 ;// CONCATENATED MODULE: ./src/model/Report.ts
+
 
 
 
@@ -23971,7 +23979,7 @@ var Report = /*#__PURE__*/function () {
 
     _defineProperty(this, "args", []);
 
-    _defineProperty(this, "extracts", []);
+    _defineProperty(this, "extracts", void 0);
 
     _defineProperty(this, "cobApp", void 0);
 
@@ -23981,7 +23989,7 @@ var Report = /*#__PURE__*/function () {
     this.emails = reportAttributes.emails;
     this.reportTmpl = reportAttributes.reportTmpl;
     this.args = (_reportAttributes$arg = reportAttributes.args) !== null && _reportAttributes$arg !== void 0 ? _reportAttributes$arg : [];
-    this.extracts = (_reportAttributes$ext = reportAttributes.extracts) !== null && _reportAttributes$ext !== void 0 ? _reportAttributes$ext : [];
+    this.extracts = (_reportAttributes$ext = reportAttributes.extracts) !== null && _reportAttributes$ext !== void 0 ? _reportAttributes$ext : {};
     this.reportQuery = reportAttributes.reportQuery;
     this.cobApp = cobApp;
   }
@@ -24109,7 +24117,7 @@ var Report = /*#__PURE__*/function () {
     key: "getReportInstance",
     value: function () {
       var _getReportInstance = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(request, cobApp) {
-        var instance, identificationField, name, description, reportTmpl, onDoneField, emailBuilderField, extracts, emails;
+        var instance, identificationField, name, description, reportTmpl, executionBlock, triggerField, args, onDoneField, emailBuilderField, extracts, emails;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -24146,6 +24154,35 @@ var Report = /*#__PURE__*/function () {
                 reportTmpl = Report.getRelativePath(instance.id, identificationField.fields.find(function (field) {
                   return field.fieldDefinition.name === FIELD_REPORT_TEMPLATE;
                 }));
+                executionBlock = instance.fields.find(function (field) {
+                  return field.fieldDefinition.name === "Execution";
+                });
+                triggerField = executionBlock.fields.filter(function (field) {
+                  return field.fieldDefinition.name === "Trigger";
+                });
+                args = [];
+
+                if (triggerField[0].value === "MANUAL") {
+                  args = executionBlock.fields.filter(function (field) {
+                    return field.fieldDefinition.name === "Arguments";
+                  }).filter(function (argumentGroupField) {
+                    return argumentGroupField.fields[0].value;
+                  }) // name field must have a value
+                  .map(function (argumentGroupField) {
+                    var _fields$1$value, _ArgumentType$type;
+
+                    var fields = argumentGroupField.fields;
+                    var name = fields[0].value;
+                    var type = (_fields$1$value = fields[1].value) === null || _fields$1$value === void 0 ? void 0 : _fields$1$value.toLocaleUpperCase();
+                    return {
+                      name: name,
+                      // https://bobbyhadz.com/blog/typescript-no-index-signature-with-parameter-of-type-string#:~:text=The%20error%20%22No%20index%20signature,keys%20using%20keyof%20typeof%20obj%20.
+                      // If no type match then fallback to TEXT
+                      type: (_ArgumentType$type = ArgumentType[type]) !== null && _ArgumentType$type !== void 0 ? _ArgumentType$type : ArgumentType.TEXT
+                    };
+                  });
+                }
+
                 onDoneField = instance.fields.find(function (field) {
                   return field.fieldDefinition.name === FIELD_ONDONE_BLOCK;
                 });
@@ -24159,7 +24196,10 @@ var Report = /*#__PURE__*/function () {
                     name: varMap.fields[0].value,
                     cellReference: varMap.fields[1].value
                   };
-                });
+                }).reduce(function (ac, cv) {
+                  ac[cv.name] = cv.cellReference;
+                  return ac;
+                }, {});
                 emails = emailBuilderField.fields.find(function (field) {
                   return field.fieldDefinition.name === FIELD_REPORT_EMAILS;
                 }).value;
@@ -24169,12 +24209,12 @@ var Report = /*#__PURE__*/function () {
                   description: description,
                   emails: emails,
                   reportTmpl: reportTmpl,
-                  args: [],
+                  args: args,
                   extracts: extracts,
                   reportQuery: request.reportQuery
                 }, cobApp));
 
-              case 12:
+              case 16:
               case "end":
                 return _context2.stop();
             }
@@ -35343,13 +35383,6 @@ var DateInputvue_type_script_setup_true_lang_js_hoisted_2 = {
 const DateInput_exports_ = DateInputvue_type_script_setup_true_lang_js;
 
 /* harmony default export */ const DateInput = (DateInput_exports_);
-;// CONCATENATED MODULE: ./src/model/Types.ts
-var ArgumentType;
-
-(function (ArgumentType) {
-  ArgumentType["TEXT"] = "TEXT";
-  ArgumentType["DATE"] = "DATE";
-})(ArgumentType || (ArgumentType = {}));
 ;// CONCATENATED MODULE: ./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib/index.js??clonedRuleSet-85.use[1]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./src/components/QueryInput.vue?vue&type=script&setup=true&lang=js
 
 
@@ -35583,10 +35616,10 @@ var ReportFormvue_type_script_setup_true_lang_js_hoisted_6 = ["disabled"];
 });
 ;// CONCATENATED MODULE: ./src/components/ReportForm.vue?vue&type=script&setup=true&lang=js
  
-;// CONCATENATED MODULE: ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-67.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-67.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-67.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-67.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./src/components/ReportForm.vue?vue&type=style&index=0&id=42cfe548&lang=scss
+;// CONCATENATED MODULE: ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-67.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-67.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-67.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-67.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./src/components/ReportForm.vue?vue&type=style&index=0&id=25cb20ae&lang=scss
 // extracted by mini-css-extract-plugin
 
-;// CONCATENATED MODULE: ./src/components/ReportForm.vue?vue&type=style&index=0&id=42cfe548&lang=scss
+;// CONCATENATED MODULE: ./src/components/ReportForm.vue?vue&type=style&index=0&id=25cb20ae&lang=scss
 
 ;// CONCATENATED MODULE: ./src/components/ReportForm.vue
 

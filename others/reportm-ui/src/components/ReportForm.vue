@@ -160,8 +160,12 @@ function closeForm() {
     display: block;
   }
 
-  .report-form-input {
+  textarea.report-form-input {
     width: 100%;
+  }
+
+  input.report-form-input {
+    width: 97%;
   }
 
   input {

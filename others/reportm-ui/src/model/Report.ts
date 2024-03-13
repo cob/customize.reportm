@@ -1,5 +1,5 @@
 import $ from "jquery";
-import { Argument, CobApp, Extract, ReportAttributes, ReportQuery } from "@/model/Types";
+import { Argument, ArgumentType, CobApp, ReportAttributes, ReportQuery } from "@/model/Types";
 
 const FIELD_IDENTIFICATION_BLOCK = "Identification";
 const FIELD_ONDONE_BLOCK = "On Done Actions";
@@ -18,7 +18,7 @@ export class Report implements ReportAttributes {
 
     readonly reportQuery?: ReportQuery
     readonly args: Argument[] = []
-    readonly extracts: Extract[] = []
+    readonly extracts: {}
 
     private cobApp: CobApp
 
@@ -29,7 +29,7 @@ export class Report implements ReportAttributes {
         this.emails = reportAttributes.emails
         this.reportTmpl = reportAttributes.reportTmpl
         this.args = reportAttributes.args ?? []
-        this.extracts = reportAttributes.extracts ?? []
+        this.extracts = reportAttributes.extracts ?? {  }
         this.reportQuery = reportAttributes.reportQuery
 
         this.cobApp = cobApp
@@ -40,26 +40,26 @@ export class Report implements ReportAttributes {
      */
     generateAndDownloadReport() {
         const form = $('<form></form>')
-            .attr('action', `/reportm/report`)
-            .attr('method', 'post');
+          .attr('action', `/reportm/report`)
+          .attr('method', 'post');
 
         form.append($("<input></input>")
-            .attr('type', 'hidden')
-            .attr('name', 'report')
-            .attr('value', this.reportTmpl));
+          .attr('type', 'hidden')
+          .attr('name', 'report')
+          .attr('value', this.reportTmpl));
 
         if (this.args || this.reportQuery?.query) {
             const argumentsObj = this.getArgsObject()
 
             form.append($("<input></input>").attr('type', 'hidden')
-                .attr('name', "arguments")
-                .attr('value', JSON.stringify(argumentsObj)));
+              .attr('name', "arguments")
+              .attr('value', JSON.stringify(argumentsObj)));
         }
 
         this.cobApp.ui.notification.showInfo("Please wait while report is being generated", true)
         form.appendTo('body')
-            .submit()
-            .remove();
+          .submit()
+          .remove();
     }
 
     /**
@@ -130,17 +130,17 @@ export class Report implements ReportAttributes {
         containerId: string
     }, cobApp: CobApp): Promise<Report> {
         const instance: any = await (new Promise((resolve) => {
-                // @ts-ignore
-                $.ajax({
-                    url: `/recordm/recordm/instances/${request.reportId}`,
-                    method: "GET",
-                    dataType: "json",
-                    xhrFields: {withCredentials: true},
-                    cache: false,
-                    ignoreErrors: true,
-                    complete: (jqXHR: any) => resolve(jqXHR.responseJSON)
-                })
-            })
+              // @ts-ignore
+              $.ajax({
+                  url: `/recordm/recordm/instances/${request.reportId}`,
+                  method: "GET",
+                  dataType: "json",
+                  xhrFields: {withCredentials: true},
+                  cache: false,
+                  ignoreErrors: true,
+                  complete: (jqXHR: any) => resolve(jqXHR.responseJSON)
+              })
+          })
         )
 
         const identificationField = instance.fields.find((field: any) => field.fieldDefinition.name === FIELD_IDENTIFICATION_BLOCK)
@@ -149,14 +149,39 @@ export class Report implements ReportAttributes {
         const description = identificationField.fields.find((field: any) => field.fieldDefinition.name === FIELD_REPORT_DESCRIPTION).value
         const reportTmpl = Report.getRelativePath(instance.id, identificationField.fields.find((field: any) => field.fieldDefinition.name === FIELD_REPORT_TEMPLATE))
 
+        const executionBlock = instance.fields.find((field: any) => field.fieldDefinition.name === "Execution");
+        const triggerField = executionBlock.fields.filter((field: any) => field.fieldDefinition.name === "Trigger");
+        let args: Argument[] = []
+        if (triggerField[0].value === "MANUAL") {
+            args = executionBlock.fields
+              .filter((field: any) => field.fieldDefinition.name === "Arguments")
+              .filter((argumentGroupField: any) => argumentGroupField.fields[0].value) // name field must have a value
+              .map((argumentGroupField: any) => {
+                  const fields = argumentGroupField.fields;
+                  const name = fields[0].value;
+                  const type = (fields[1].value as string)?.toLocaleUpperCase();
+
+                  return {
+                      name,
+                      // https://bobbyhadz.com/blog/typescript-no-index-signature-with-parameter-of-type-string#:~:text=The%20error%20%22No%20index%20signature,keys%20using%20keyof%20typeof%20obj%20.
+                      // If no type match then fallback to TEXT
+                      type: ArgumentType[type as keyof typeof ArgumentType] ?? ArgumentType.TEXT,
+                  };
+              });
+        }
+
         const onDoneField = instance.fields.find((field: any) => field.fieldDefinition.name === FIELD_ONDONE_BLOCK)
         const emailBuilderField = onDoneField.fields.find((field: any) => field.fieldDefinition.name === "Email Builder")
 
         const extracts = emailBuilderField.fields.filter((field: any) => field.fieldDefinition.name === "Variable Mapping")
-            .map((varMap: any) => ({name: varMap.fields[0].value, cellReference: varMap.fields[1].value}))
+          .map((varMap: any) => ({ name: varMap.fields[0].value, cellReference: varMap.fields[1].value }))
+          .reduce((ac: any, cv: any) => {
+              ac[cv.name] = cv.cellReference
+              return ac
+          }, {})
 
         const emails = emailBuilderField.fields.find((field: any) => field.fieldDefinition.name === FIELD_REPORT_EMAILS)
-            .value
+          .value
 
         return new Report({
             id: request.reportId,
@@ -164,7 +189,7 @@ export class Report implements ReportAttributes {
             description,
             emails,
             reportTmpl,
-            args: [],
+            args,
             extracts,
             reportQuery: request.reportQuery
         }, cobApp)

@@ -9,11 +9,6 @@ export interface Argument {
     value?: any
 }
 
-export interface Extract {
-    name: string
-    cellReference: string
-}
-
 export interface ReportAttributes {
     id: number
     name: string
@@ -21,7 +16,7 @@ export interface ReportAttributes {
     emails?: string
     reportTmpl: string
     args: Argument[]
-    extracts: Extract[]
+    extracts: { }
     reportQuery?: ReportQuery
 }
 
