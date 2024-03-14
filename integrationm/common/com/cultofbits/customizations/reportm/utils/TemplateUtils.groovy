@@ -40,20 +40,6 @@ class TemplateUtils {
             }
         })
 
-        handlebars.registerHelper("isNull", new Helper<Object>() {
-            @Override
-            CharSequence apply(Object value, Options options) throws IOException {
-                return value == null ? options.fn() : ""
-            }
-        })
-
-        handlebars.registerHelper("isNotNull", new Helper<Object>() {
-            @Override
-            CharSequence apply(Object value, Options options) throws IOException {
-                return value != null ? options.fn(value) : ""
-            }
-        })
-
         handlebars.registerHelper("isEqual", new Helper<Object>() {
             @Override
             CharSequence apply(Object value, Options options) throws IOException {
@@ -61,19 +47,13 @@ class TemplateUtils {
             }
         })
 
-        handlebars.registerHelper("isEmpty", new Helper<String>() {
+        handlebars.registerHelper("isNotEqual", new Helper<Object>() {
             @Override
-            CharSequence apply(String value, Options options) throws IOException {
-                return value == null || value.isEmpty() ? options.fn() : ""
+            CharSequence apply(Object value, Options options) throws IOException {
+                return !Objects.equals(value, options.param(0)) ? options.fn(value) : ""
             }
         })
 
-        handlebars.registerHelper("isNotEmpty", new Helper<String>() {
-            @Override
-            CharSequence apply(String value, Options options) throws IOException {
-                return value != null && !value.isEmpty() ? options.fn(value) : ""
-            }
-        })
 
     }
 

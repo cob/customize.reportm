@@ -73,19 +73,6 @@ class TemplateUtilsTest extends Specification {
         result == "<ul><li>1</li><li>2</li><li>3</li></ul>"
     }
 
-    def "isNull"() {
-        given: "template and variables"
-
-        def template = "<ul>{{#isNull items}}null{{/isNull}}</ul>"
-        def variables = ["items": null]
-
-        when:
-        def result = TemplateUtils.apply(template, variables)
-
-        then:
-        result == "<ul>null</ul>"
-    }
-
     def "isEqual"() {
         given: "template and variables"
 
@@ -97,32 +84,6 @@ class TemplateUtilsTest extends Specification {
 
         then:
         result == "<ul>equal</ul>"
-    }
-
-    def "isEmpty"() {
-        given: "template and variables"
-
-        def template = "<ul>{{#isEmpty item }}empty{{/isEmpty}}</ul>"
-        def variables = ["item": ""]
-
-        when:
-        def result = TemplateUtils.apply(template, variables)
-
-        then:
-        result == "<ul>empty</ul>"
-    }
-
-    def "isNotEmpty"() {
-        given: "template and variables"
-
-        def template = "<ul>{{#isNotEmpty item}}{{.}}{{/isNotEmpty}}</ul>"
-        def variables = ["item": "abc"]
-
-        when:
-        def result = TemplateUtils.apply(template, variables)
-
-        then:
-        result == "<ul>abc</ul>"
     }
 
 }
