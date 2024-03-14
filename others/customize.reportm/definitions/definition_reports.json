@@ -1,0 +1,1021 @@
+{
+  "id": null,
+  "name": "Reports",
+  "description": "@COB v3.0.0 Beta",
+  "duplicable": null,
+  "state": "enabled",
+  "fieldDefinitions": [
+    {
+      "id": null,
+      "name": "Identification",
+      "required": null,
+      "description": "$group $expanded",
+      "configuration": {
+        "description": "",
+        "keys": {
+          "Group": {},
+          "Expanded": {
+            "args": {}
+          }
+        },
+        "extensions": {}
+      },
+      "condition": null,
+      "visibilityCondition": null,
+      "duplicable": false,
+      "fields": [
+        {
+          "id": null,
+          "name": "Name",
+          "required": "mandatory",
+          "description": "$instanceLabel",
+          "configuration": {
+            "description": "",
+            "keys": {
+              "InstanceLabel": {}
+            },
+            "extensions": {}
+          },
+          "condition": null,
+          "visibilityCondition": null,
+          "duplicable": false,
+          "fields": [],
+          "order": 1,
+          "rootField": false,
+          "restricted": false,
+          "defaultValue": null
+        },
+        {
+          "id": null,
+          "name": "Description",
+          "required": null,
+          "description": "$instanceDescription $textarea",
+          "configuration": {
+            "description": "",
+            "keys": {
+              "InstanceDescription": {}
+            },
+            "extensions": {
+              "$textarea": {}
+            }
+          },
+          "condition": null,
+          "visibilityCondition": null,
+          "duplicable": false,
+          "fields": [],
+          "order": 2,
+          "rootField": false,
+          "restricted": false,
+          "defaultValue": null
+        },
+        {
+          "id": null,
+          "name": "Template",
+          "required": "mandatory",
+          "description": "$file $help[Excel template file that will be used to generate the report]",
+          "configuration": {
+            "description": "",
+            "keys": {
+              "Help": {
+                "args": [
+                  "Excel template file that will be used to generate the report"
+                ]
+              },
+              "File": {}
+            },
+            "extensions": {}
+          },
+          "condition": null,
+          "visibilityCondition": null,
+          "duplicable": false,
+          "fields": [],
+          "order": 3,
+          "rootField": false,
+          "restricted": false,
+          "defaultValue": null
+        }
+      ],
+      "order": 0,
+      "rootField": true,
+      "restricted": false,
+      "defaultValue": null
+    },
+    {
+      "id": null,
+      "name": "Visibility",
+      "required": null,
+      "description": "$group $expanded",
+      "configuration": {
+        "description": "",
+        "keys": {
+          "Group": {},
+          "Expanded": {
+            "args": {}
+          }
+        },
+        "extensions": {}
+      },
+      "condition": null,
+      "visibilityCondition": null,
+      "duplicable": false,
+      "fields": [
+        {
+          "id": null,
+          "name": "UserM Group",
+          "required": null,
+          "description": "$extRef(userm,/userm/group/search?q={{this}}) $help[UserM group that has access to this report]",
+          "configuration": {
+            "description": "",
+            "keys": {
+              "ExternalReference": {
+                "args": {
+                  "product": "userm",
+                  "query": "/userm/group/search?q={{this}}"
+                }
+              },
+              "Help": {
+                "args": [
+                  "UserM group that has access to this report"
+                ]
+              }
+            },
+            "extensions": {}
+          },
+          "condition": null,
+          "visibilityCondition": null,
+          "duplicable": true,
+          "fields": [
+            {
+              "id": null,
+              "name": "Group Name",
+              "required": null,
+              "description": "$auto.ref(UserM Group).field(name)  $style[hide]",
+              "configuration": {
+                "description": "",
+                "keys": {
+                  "AutoRefField": {
+                    "args": {
+                      "source_field": "UserM Group",
+                      "field_name": "name"
+                    }
+                  }
+                },
+                "extensions": {
+                  "$style": {
+                    "args": [
+                      "hide"
+                    ]
+                  }
+                }
+              },
+              "condition": null,
+              "visibilityCondition": null,
+              "duplicable": false,
+              "fields": [],
+              "order": 6,
+              "rootField": false,
+              "restricted": false,
+              "defaultValue": null
+            }
+          ],
+          "order": 5,
+          "rootField": false,
+          "restricted": false,
+          "defaultValue": null
+        }
+      ],
+      "order": 4,
+      "rootField": true,
+      "restricted": false,
+      "defaultValue": null
+    },
+    {
+      "id": null,
+      "name": "Execution",
+      "required": null,
+      "description": "$group $expanded",
+      "configuration": {
+        "description": "",
+        "keys": {
+          "Group": {},
+          "Expanded": {
+            "args": {}
+          }
+        },
+        "extensions": {}
+      },
+      "condition": null,
+      "visibilityCondition": null,
+      "duplicable": false,
+      "fields": [
+        {
+          "id": null,
+          "name": "Trigger",
+          "required": "mandatory",
+          "description": "$[MANUAL,EVENT,SCHEDULED] $default(MANUAL) $expanded $instanceDescription $help[How the report is to be generated]",
+          "configuration": {
+            "description": "",
+            "keys": {
+              "Default": {
+                "args": {
+                  "value": "MANUAL"
+                }
+              },
+              "Help": {
+                "args": [
+                  "How the report is to be generated"
+                ]
+              },
+              "Select": {
+                "args": [
+                  "MANUAL",
+                  "EVENT",
+                  "SCHEDULED"
+                ],
+                "default": null
+              },
+              "InstanceDescription": {},
+              "Expanded": {
+                "args": {}
+              }
+            },
+            "extensions": {}
+          },
+          "condition": null,
+          "visibilityCondition": null,
+          "duplicable": false,
+          "fields": [],
+          "order": 8,
+          "rootField": false,
+          "restricted": false,
+          "defaultValue": "MANUAL"
+        },
+        {
+          "id": null,
+          "name": "Definition",
+          "required": "mandatory",
+          "description": "$definitions $instanceDescription $help[Definition where the generate report button will be shown]",
+          "configuration": {
+            "description": "",
+            "keys": {
+              "Help": {
+                "args": [
+                  "Definition where the generate report button will be shown"
+                ]
+              },
+              "InstanceDescription": {}
+            },
+            "extensions": {
+              "$definitions": {}
+            }
+          },
+          "condition": "Trigger=MANUAL,EVENT",
+          "visibilityCondition": {
+            "type": "Equal",
+            "value": [
+              "MANUAL",
+              "EVENT"
+            ],
+            "matcher": {
+              "type": "Name",
+              "name": "Trigger"
+            }
+          },
+          "duplicable": false,
+          "fields": [],
+          "order": 9,
+          "rootField": false,
+          "restricted": false,
+          "defaultValue": null
+        },
+        {
+          "id": null,
+          "name": "Arguments",
+          "required": null,
+          "description": "$group $expanded $style[hide]",
+          "configuration": {
+            "description": "",
+            "keys": {
+              "Group": {},
+              "Expanded": {
+                "args": {}
+              }
+            },
+            "extensions": {
+              "$style": {
+                "args": [
+                  "hide"
+                ]
+              }
+            }
+          },
+          "condition": "Trigger=MANUAL",
+          "visibilityCondition": {
+            "type": "Equal",
+            "value": [
+              "MANUAL"
+            ],
+            "matcher": {
+              "type": "Name",
+              "name": "Trigger"
+            }
+          },
+          "duplicable": true,
+          "fields": [
+            {
+              "id": null,
+              "name": "Name",
+              "required": null,
+              "description": null,
+              "configuration": {
+                "description": null,
+                "keys": {},
+                "extensions": {}
+              },
+              "condition": null,
+              "visibilityCondition": null,
+              "duplicable": false,
+              "fields": [],
+              "order": 11,
+              "rootField": false,
+              "restricted": false,
+              "defaultValue": null
+            },
+            {
+              "id": null,
+              "name": "Type",
+              "required": null,
+              "description": "$[DATE,TEXT] $default(TEXT)",
+              "configuration": {
+                "description": "",
+                "keys": {
+                  "Default": {
+                    "args": {
+                      "value": "TEXT"
+                    }
+                  },
+                  "Select": {
+                    "args": [
+                      "DATE",
+                      "TEXT"
+                    ],
+                    "default": null
+                  }
+                },
+                "extensions": {}
+              },
+              "condition": null,
+              "visibilityCondition": null,
+              "duplicable": false,
+              "fields": [],
+              "order": 12,
+              "rootField": false,
+              "restricted": false,
+              "defaultValue": "TEXT"
+            }
+          ],
+          "order": 10,
+          "rootField": false,
+          "restricted": false,
+          "defaultValue": null
+        },
+        {
+          "id": null,
+          "name": "Condition",
+          "required": null,
+          "description": "$text Specify a condition to evaluate if the report is to be sent or not",
+          "configuration": {
+            "description": "Specify a condition to evaluate if the report is to be sent or not",
+            "keys": {},
+            "extensions": {
+              "$text": {}
+            }
+          },
+          "condition": "Trigger=EVENT",
+          "visibilityCondition": {
+            "type": "Equal",
+            "value": [
+              "EVENT"
+            ],
+            "matcher": {
+              "type": "Name",
+              "name": "Trigger"
+            }
+          },
+          "duplicable": false,
+          "fields": [],
+          "order": 13,
+          "rootField": false,
+          "restricted": false,
+          "defaultValue": null
+        },
+        {
+          "id": null,
+          "name": "Periodicity",
+          "required": "mandatory",
+          "description": "$[DAILY,WEEKLY,MONTHLY] $expanded",
+          "configuration": {
+            "description": "",
+            "keys": {
+              "Select": {
+                "args": [
+                  "DAILY",
+                  "WEEKLY",
+                  "MONTHLY"
+                ],
+                "default": null
+              },
+              "Expanded": {
+                "args": {}
+              }
+            },
+            "extensions": {}
+          },
+          "condition": "Trigger=SCHEDULED",
+          "visibilityCondition": {
+            "type": "Equal",
+            "value": [
+              "SCHEDULED"
+            ],
+            "matcher": {
+              "type": "Name",
+              "name": "Trigger"
+            }
+          },
+          "duplicable": false,
+          "fields": [],
+          "order": 14,
+          "rootField": false,
+          "restricted": false,
+          "defaultValue": null
+        },
+        {
+          "id": null,
+          "name": "Month day",
+          "required": "mandatory",
+          "description": "$[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31] $checkbox $multiple $instanceDescription",
+          "configuration": {
+            "description": "",
+            "keys": {
+              "Select": {
+                "args": [
+                  "1",
+                  "2",
+                  "3",
+                  "4",
+                  "5",
+                  "6",
+                  "7",
+                  "8",
+                  "9",
+                  "10",
+                  "11",
+                  "12",
+                  "13",
+                  "14",
+                  "15",
+                  "16",
+                  "17",
+                  "18",
+                  "19",
+                  "20",
+                  "21",
+                  "22",
+                  "23",
+                  "24",
+                  "25",
+                  "26",
+                  "27",
+                  "28",
+                  "29",
+                  "30",
+                  "31"
+                ],
+                "default": null
+              },
+              "InstanceDescription": {},
+              "Multiple": {}
+            },
+            "extensions": {
+              "$checkbox": {}
+            }
+          },
+          "condition": "Periodicity=MONTHLY",
+          "visibilityCondition": {
+            "type": "Equal",
+            "value": [
+              "MONTHLY"
+            ],
+            "matcher": {
+              "type": "Name",
+              "name": "Periodicity"
+            }
+          },
+          "duplicable": false,
+          "fields": [],
+          "order": 15,
+          "rootField": false,
+          "restricted": false,
+          "defaultValue": null
+        },
+        {
+          "id": null,
+          "name": "Week day",
+          "required": "mandatory",
+          "description": "$[Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday] $checkbox $multiple $instanceDescription",
+          "configuration": {
+            "description": "",
+            "keys": {
+              "Select": {
+                "args": [
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday",
+                  "Saturday",
+                  "Sunday"
+                ],
+                "default": null
+              },
+              "InstanceDescription": {},
+              "Multiple": {}
+            },
+            "extensions": {
+              "$checkbox": {}
+            }
+          },
+          "condition": "Periodicity=WEEKLY",
+          "visibilityCondition": {
+            "type": "Equal",
+            "value": [
+              "WEEKLY"
+            ],
+            "matcher": {
+              "type": "Name",
+              "name": "Periodicity"
+            }
+          },
+          "duplicable": false,
+          "fields": [],
+          "order": 16,
+          "rootField": false,
+          "restricted": false,
+          "defaultValue": null
+        },
+        {
+          "id": null,
+          "name": "Hour",
+          "required": "mandatory",
+          "description": "$[0h,1h,2h,3h,4h,5h,6h,7h,8h,9h,10h,11h,12h,13h,14h,15h,16h,17h,18h,19h,20h,21h,22h,23h] $instanceDescription",
+          "configuration": {
+            "description": "",
+            "keys": {
+              "Select": {
+                "args": [
+                  "0h",
+                  "1h",
+                  "2h",
+                  "3h",
+                  "4h",
+                  "5h",
+                  "6h",
+                  "7h",
+                  "8h",
+                  "9h",
+                  "10h",
+                  "11h",
+                  "12h",
+                  "13h",
+                  "14h",
+                  "15h",
+                  "16h",
+                  "17h",
+                  "18h",
+                  "19h",
+                  "20h",
+                  "21h",
+                  "22h",
+                  "23h"
+                ],
+                "default": null
+              },
+              "InstanceDescription": {}
+            },
+            "extensions": {}
+          },
+          "condition": "Periodicity=DAILY,WEEKLY,MONTHLY",
+          "visibilityCondition": {
+            "type": "Equal",
+            "value": [
+              "DAILY",
+              "WEEKLY",
+              "MONTHLY"
+            ],
+            "matcher": {
+              "type": "Name",
+              "name": "Periodicity"
+            }
+          },
+          "duplicable": false,
+          "fields": [],
+          "order": 17,
+          "rootField": false,
+          "restricted": false,
+          "defaultValue": null
+        }
+      ],
+      "order": 7,
+      "rootField": true,
+      "restricted": false,
+      "defaultValue": null
+    },
+    {
+      "id": null,
+      "name": "On Done Actions",
+      "required": null,
+      "description": "$group $expanded",
+      "configuration": {
+        "description": "",
+        "keys": {
+          "Group": {},
+          "Expanded": {
+            "args": {}
+          }
+        },
+        "extensions": {}
+      },
+      "condition": null,
+      "visibilityCondition": null,
+      "duplicable": false,
+      "fields": [
+        {
+          "id": null,
+          "name": "Actions",
+          "required": "mandatory",
+          "description": "$[*Send Email,Attach to Instance]  $checkbox $multiple",
+          "configuration": {
+            "description": "",
+            "keys": {
+              "Select": {
+                "args": [
+                  "Send Email",
+                  "Attach to Instance"
+                ],
+                "default": "Send Email"
+              },
+              "Multiple": {}
+            },
+            "extensions": {
+              "$checkbox": {}
+            }
+          },
+          "condition": "Trigger=EVENT",
+          "visibilityCondition": {
+            "type": "Equal",
+            "value": [
+              "EVENT"
+            ],
+            "matcher": {
+              "type": "Name",
+              "name": "Trigger"
+            }
+          },
+          "duplicable": false,
+          "fields": [],
+          "order": 19,
+          "rootField": false,
+          "restricted": false,
+          "defaultValue": "Send Email"
+        },
+        {
+          "id": null,
+          "name": "Actions",
+          "required": "mandatory",
+          "description": "$[*Send Email] $checkbox $multiple",
+          "configuration": {
+            "description": "",
+            "keys": {
+              "Select": {
+                "args": [
+                  "Send Email"
+                ],
+                "default": "Send Email"
+              },
+              "Multiple": {}
+            },
+            "extensions": {
+              "$checkbox": {}
+            }
+          },
+          "condition": "Trigger!EVENT",
+          "visibilityCondition": {
+            "type": "NotEqual",
+            "value": [
+              "EVENT"
+            ],
+            "matcher": {
+              "type": "Name",
+              "name": "Trigger"
+            }
+          },
+          "duplicable": false,
+          "fields": [],
+          "order": 20,
+          "rootField": false,
+          "restricted": false,
+          "defaultValue": "Send Email"
+        },
+        {
+          "id": null,
+          "name": "Email Builder",
+          "required": null,
+          "description": "$group $expanded",
+          "configuration": {
+            "description": "",
+            "keys": {
+              "Group": {},
+              "Expanded": {
+                "args": {}
+              }
+            },
+            "extensions": {}
+          },
+          "condition": "Actions=Send Email || Trigger!EVENT",
+          "visibilityCondition": {
+            "type": "Or",
+            "conditions": [
+              {
+                "type": "Equal",
+                "value": [
+                  "Send Email"
+                ],
+                "matcher": {
+                  "type": "Name",
+                  "name": "Actions"
+                }
+              },
+              {
+                "type": "NotEqual",
+                "value": [
+                  "EVENT"
+                ],
+                "matcher": {
+                  "type": "Name",
+                  "name": "Trigger"
+                }
+              }
+            ]
+          },
+          "duplicable": false,
+          "fields": [
+            {
+              "id": null,
+              "name": "Variable Mapping",
+              "required": null,
+              "description": "$group $expanded",
+              "configuration": {
+                "description": "",
+                "keys": {
+                  "Group": {},
+                  "Expanded": {
+                    "args": {}
+                  }
+                },
+                "extensions": {}
+              },
+              "condition": null,
+              "visibilityCondition": null,
+              "duplicable": true,
+              "fields": [
+                {
+                  "id": null,
+                  "name": "Variable",
+                  "required": null,
+                  "description": null,
+                  "configuration": {
+                    "description": null,
+                    "keys": {},
+                    "extensions": {}
+                  },
+                  "condition": null,
+                  "visibilityCondition": null,
+                  "duplicable": false,
+                  "fields": [],
+                  "order": 23,
+                  "rootField": false,
+                  "restricted": false,
+                  "defaultValue": null
+                },
+                {
+                  "id": null,
+                  "name": "Excel Cell",
+                  "required": null,
+                  "description": "Address in the form of \"<sheet_name>!<cell-coord>\" representing an excel cell that from where it should get the value",
+                  "configuration": {
+                    "description": "Address in the form of \"<sheet_name>!<cell-coord>\" representing an excel cell that from where it should get the value",
+                    "keys": {},
+                    "extensions": {}
+                  },
+                  "condition": null,
+                  "visibilityCondition": null,
+                  "duplicable": false,
+                  "fields": [],
+                  "order": 24,
+                  "rootField": false,
+                  "restricted": false,
+                  "defaultValue": null
+                }
+              ],
+              "order": 22,
+              "rootField": false,
+              "restricted": false,
+              "defaultValue": null
+            },
+            {
+              "id": null,
+              "name": "Email Definition",
+              "required": null,
+              "description": "$group",
+              "configuration": {
+                "description": "",
+                "keys": {
+                  "Group": {}
+                },
+                "extensions": {}
+              },
+              "condition": null,
+              "visibilityCondition": null,
+              "duplicable": false,
+              "fields": [],
+              "order": 25,
+              "rootField": false,
+              "restricted": false,
+              "defaultValue": null
+            },
+            {
+              "id": null,
+              "name": "Destinations",
+              "required": "mandatory",
+              "description": "$text $instanceDescription List of emails separated by \";\"",
+              "configuration": {
+                "description": "List of emails separated by \";\"",
+                "keys": {
+                  "InstanceDescription": {}
+                },
+                "extensions": {
+                  "$text": {}
+                }
+              },
+              "condition": null,
+              "visibilityCondition": null,
+              "duplicable": false,
+              "fields": [],
+              "order": 26,
+              "rootField": false,
+              "restricted": false,
+              "defaultValue": null
+            },
+            {
+              "id": null,
+              "name": "Subject",
+              "required": "mandatory",
+              "description": "Template used to build the email subject",
+              "configuration": {
+                "description": "Template used to build the email subject",
+                "keys": {},
+                "extensions": {}
+              },
+              "condition": null,
+              "visibilityCondition": null,
+              "duplicable": false,
+              "fields": [],
+              "order": 27,
+              "rootField": false,
+              "restricted": false,
+              "defaultValue": null
+            },
+            {
+              "id": null,
+              "name": "Body",
+              "required": null,
+              "description": "$markdown Template used to build the email body",
+              "configuration": {
+                "description": "Template used to build the email body",
+                "keys": {},
+                "extensions": {
+                  "$markdown": {}
+                }
+              },
+              "condition": null,
+              "visibilityCondition": null,
+              "duplicable": false,
+              "fields": [],
+              "order": 28,
+              "rootField": false,
+              "restricted": false,
+              "defaultValue": null
+            }
+          ],
+          "order": 21,
+          "rootField": false,
+          "restricted": false,
+          "defaultValue": null
+        },
+        {
+          "id": null,
+          "name": "Instance Field",
+          "required": null,
+          "description": "$group $expanded",
+          "configuration": {
+            "description": "",
+            "keys": {
+              "Group": {},
+              "Expanded": {
+                "args": {}
+              }
+            },
+            "extensions": {}
+          },
+          "condition": "Actions=Attach to Instance",
+          "visibilityCondition": {
+            "type": "Equal",
+            "value": [
+              "Attach to Instance"
+            ],
+            "matcher": {
+              "type": "Name",
+              "name": "Actions"
+            }
+          },
+          "duplicable": false,
+          "fields": [
+            {
+              "id": null,
+              "name": "Definition Field",
+              "required": "mandatory",
+              "description": "The field of the definition to attach the report. It must be a \\$file",
+              "configuration": {
+                "description": "The field of the definition to attach the report. It must be a $file",
+                "keys": {},
+                "extensions": {}
+              },
+              "condition": null,
+              "visibilityCondition": null,
+              "duplicable": false,
+              "fields": [],
+              "order": 30,
+              "rootField": false,
+              "restricted": false,
+              "defaultValue": null
+            }
+          ],
+          "order": 29,
+          "rootField": false,
+          "restricted": false,
+          "defaultValue": null
+        }
+      ],
+      "order": 18,
+      "rootField": true,
+      "restricted": false,
+      "defaultValue": null
+    },
+    {
+      "id": null,
+      "name": "Execute",
+      "required": null,
+      "description": "$auto.text(id).join('Execute') $link $style[hide] $instanceDescription",
+      "configuration": {
+        "description": "",
+        "keys": {
+          "AutoTextJoin": {
+            "args": [
+              "'Execute'"
+            ]
+          },
+          "InstanceDescription": {},
+          "Link": {
+            "args": {}
+          }
+        },
+        "extensions": {
+          "$style": {
+            "args": [
+              "hide"
+            ]
+          }
+        }
+      },
+      "condition": null,
+      "visibilityCondition": null,
+      "duplicable": false,
+      "fields": [],
+      "order": 31,
+      "rootField": true,
+      "restricted": false,
+      "defaultValue": null
+    }
+  ],
+  "version": null
+}

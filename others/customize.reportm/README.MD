@@ -3,9 +3,10 @@
 
 ### Definition Upgrades:
 
-#### 2.0.0
+#### 3.0.0
 * Add support to have email templates in subject and body  
+
 ```
-TODO 
+Migration has to be done manual. 
 ```
 
