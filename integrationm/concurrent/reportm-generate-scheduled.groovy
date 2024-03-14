@@ -19,7 +19,7 @@ def dayOfMonthQuery = "month_day:${now.dayOfMonth}"
 def weekdayQuery = "week_day:${weekdays[now.dayOfWeek.value]}"
 def hourQuery = "hour:${now.hour}h"
 
-def query = "execution:SCHEDULED AND template:* AND emails:* AND ( " +
+def query = "execution:SCHEDULED AND template:* AND destinations:* AND ( " +
         "(periodicity:MONTHLY AND ${dayOfMonthQuery}  AND ${hourQuery}) " +
         "OR (periodicity:WEEKLY AND ${weekdayQuery} AND ${hourQuery}) " +
         "OR (periodicity:DAILY AND ${hourQuery})" +

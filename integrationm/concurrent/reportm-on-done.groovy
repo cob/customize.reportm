@@ -16,7 +16,11 @@ if (!reportInstanceResponse.success()) {
 
 def reportmInstance = reportInstanceResponse.getBody()
 
-reportmInstance.values("Actions").each {
+def actions = reportmInstance.value("Trigger") == "MANUAL" || reportmInstance.value("Trigger") == "SCHEDULED"
+                ? reportmInstance.values("Trigger Actions")
+                : reportmInstance.values("Event Actions")
+
+actions.each {
     action ->
         switch (action) {
             case "Send Email":
