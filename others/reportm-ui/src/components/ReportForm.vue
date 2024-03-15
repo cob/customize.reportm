@@ -16,7 +16,7 @@
         <div v-if="report.args.length >0"
              class="report-args-container">
 
-          <div class="title">Argumentos:</div>
+          <div class="title">Arguments:</div>
           <component v-for="arg in report.args"
                      :is="ComponentTypeMap[arg.type]"
                      :key="arg"
@@ -25,7 +25,8 @@
           />
         </div>
 
-        <TextAreaInput class="report-input-emails"
+        <TextAreaInput v-if="allowSendingEmail"
+                       class="report-input-emails"
                        label="Emails:"
                        v-model:value="emails"/>
       </form>
@@ -43,7 +44,8 @@
                 @click="downloadReport">Download
         </button>
 
-        <button value="submit"
+        <button v-if="allowSendingEmail"
+                value="submit"
                 class="report-form-button btn btn-small btn-success"
                 :disabled="!hasEmails"
                 @click="sendReportByEmail">Send by Email
@@ -74,6 +76,7 @@ const props = defineProps({
   onCloseRequest: Function,
 })
 
+const allowSendingEmail = computed(() => props.report.actions.indexOf("Send Email") !== -1)
 const emails = ref(props.report.emails || "")
 const hasEmails = computed(() => emails.value.length)
 
@@ -160,12 +163,12 @@ function closeForm() {
     display: block;
   }
 
-  textarea.report-form-input {
-    width: 100%;
+  input.report-form-input {
+    width: 50%;
   }
 
-  input.report-form-input {
-    width: 97%;
+  textarea.report-form-input {
+    width: 100%;
   }
 
   input {

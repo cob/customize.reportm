@@ -30,7 +30,7 @@ function updateDate(newDate){
 }
 
 .dp__input {
-  width: 100% !important;
+  width: 50% !important;
   background-color: #fff !important;
 }
 </style>

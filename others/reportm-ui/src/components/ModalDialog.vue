@@ -84,8 +84,6 @@ onUnmounted(() => {
     position: relative;
 
     margin-bottom: 10px;
-    border-bottom: 1px solid #ccc;
-
     padding: 10px 0 0;
 
     .close-button {

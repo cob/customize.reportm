@@ -16,6 +16,7 @@ export interface ReportAttributes {
     emails?: string
     reportTmpl: string
     args: Argument[]
+    actions: string[]
     extracts: { }
     reportQuery?: ReportQuery
 }
