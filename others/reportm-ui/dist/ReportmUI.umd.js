@@ -24196,6 +24196,8 @@ var Report = /*#__PURE__*/function () {
                     name: varMap.fields[0].value,
                     cellReference: varMap.fields[1].value
                   };
+                }).filter(function (variable) {
+                  return variable.name && variable.cellReference;
                 }).reduce(function (ac, cv) {
                   ac[cv.name] = cv.cellReference;
                   return ac;
