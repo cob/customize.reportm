@@ -23953,6 +23953,8 @@ var ArgumentType;
 
 
 
+
+
 var FIELD_IDENTIFICATION_BLOCK = "Identification";
 var FIELD_ONDONE_BLOCK = "On Done Actions";
 var FIELD_REPORT_NAME = "Name";
@@ -23961,7 +23963,7 @@ var FIELD_REPORT_EMAILS = "Destinations";
 var FIELD_REPORT_TEMPLATE = "Template";
 var Report = /*#__PURE__*/function () {
   function Report(reportAttributes, cobApp) {
-    var _reportAttributes$arg, _reportAttributes$ext;
+    var _reportAttributes$arg, _reportAttributes$act, _reportAttributes$ext;
 
     classCallCheck_classCallCheck(this, Report);
 
@@ -23979,6 +23981,8 @@ var Report = /*#__PURE__*/function () {
 
     _defineProperty(this, "args", []);
 
+    _defineProperty(this, "actions", void 0);
+
     _defineProperty(this, "extracts", void 0);
 
     _defineProperty(this, "cobApp", void 0);
@@ -23989,6 +23993,7 @@ var Report = /*#__PURE__*/function () {
     this.emails = reportAttributes.emails;
     this.reportTmpl = reportAttributes.reportTmpl;
     this.args = (_reportAttributes$arg = reportAttributes.args) !== null && _reportAttributes$arg !== void 0 ? _reportAttributes$arg : [];
+    this.actions = (_reportAttributes$act = reportAttributes.actions) !== null && _reportAttributes$act !== void 0 ? _reportAttributes$act : [];
     this.extracts = (_reportAttributes$ext = reportAttributes.extracts) !== null && _reportAttributes$ext !== void 0 ? _reportAttributes$ext : {};
     this.reportQuery = reportAttributes.reportQuery;
     this.cobApp = cobApp;
@@ -24117,7 +24122,9 @@ var Report = /*#__PURE__*/function () {
     key: "getReportInstance",
     value: function () {
       var _getReportInstance = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(request, cobApp) {
-        var instance, identificationField, name, description, reportTmpl, executionBlock, triggerField, args, onDoneField, emailBuilderField, extracts, emails;
+        var _selectedActions;
+
+        var instance, identificationField, name, description, reportTmpl, executionBlock, triggerField, args, onDoneField, selectedActions, actions, emailBuilderField, extracts, emails;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -24186,6 +24193,18 @@ var Report = /*#__PURE__*/function () {
                 onDoneField = instance.fields.find(function (field) {
                   return field.fieldDefinition.name === FIELD_ONDONE_BLOCK;
                 });
+
+                if (triggerField[0].value === "EVENT") {
+                  selectedActions = onDoneField.fields.find(function (field) {
+                    return field.fieldDefinition.name === "Event Actions";
+                  }).value;
+                } else {
+                  selectedActions = onDoneField.fields.find(function (field) {
+                    return field.fieldDefinition.name === "Trigger Actions";
+                  }).value;
+                }
+
+                actions = (_selectedActions = selectedActions) === null || _selectedActions === void 0 ? void 0 : _selectedActions.split("\0");
                 emailBuilderField = onDoneField.fields.find(function (field) {
                   return field.fieldDefinition.name === "Email Builder";
                 });
@@ -24212,11 +24231,12 @@ var Report = /*#__PURE__*/function () {
                   emails: emails,
                   reportTmpl: reportTmpl,
                   args: args,
+                  actions: actions,
                   extracts: extracts,
                   reportQuery: request.reportQuery
                 }, cobApp));
 
-              case 16:
+              case 18:
               case "end":
                 return _context2.stop();
             }
@@ -24292,10 +24312,10 @@ var _hoisted_6 = {
 });
 ;// CONCATENATED MODULE: ./src/components/ModalDialog.vue?vue&type=script&setup=true&lang=js
  
-;// CONCATENATED MODULE: ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-67.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-67.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-67.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-67.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./src/components/ModalDialog.vue?vue&type=style&index=0&id=6e2c7bec&lang=scss
+;// CONCATENATED MODULE: ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-67.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-67.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-67.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-67.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./src/components/ModalDialog.vue?vue&type=style&index=0&id=3b260586&lang=scss
 // extracted by mini-css-extract-plugin
 
-;// CONCATENATED MODULE: ./src/components/ModalDialog.vue?vue&type=style&index=0&id=6e2c7bec&lang=scss
+;// CONCATENATED MODULE: ./src/components/ModalDialog.vue?vue&type=style&index=0&id=3b260586&lang=scss
 
 ;// CONCATENATED MODULE: ./src/components/ModalDialog.vue
 
@@ -35371,10 +35391,10 @@ var DateInputvue_type_script_setup_true_lang_js_hoisted_2 = {
 });
 ;// CONCATENATED MODULE: ./src/components/DateInput.vue?vue&type=script&setup=true&lang=js
  
-;// CONCATENATED MODULE: ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-67.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-67.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-67.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-67.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./src/components/DateInput.vue?vue&type=style&index=0&id=e44e3fea&lang=scss
+;// CONCATENATED MODULE: ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-67.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-67.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-67.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-67.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./src/components/DateInput.vue?vue&type=style&index=0&id=f53efcaa&lang=scss
 // extracted by mini-css-extract-plugin
 
-;// CONCATENATED MODULE: ./src/components/DateInput.vue?vue&type=style&index=0&id=e44e3fea&lang=scss
+;// CONCATENATED MODULE: ./src/components/DateInput.vue?vue&type=style&index=0&id=f53efcaa&lang=scss
 
 ;// CONCATENATED MODULE: ./src/components/DateInput.vue
 
@@ -35501,6 +35521,7 @@ const TextAreaInput_exports_ = TextAreaInputvue_type_script_setup_true_lang_js;
 
 
 
+
 var ReportFormvue_type_script_setup_true_lang_js_hoisted_1 = {
   "class": "report-form-title"
 };
@@ -35514,7 +35535,7 @@ var ReportFormvue_type_script_setup_true_lang_js_hoisted_3 = {
 
 var ReportFormvue_type_script_setup_true_lang_js_hoisted_4 = /*#__PURE__*/createBaseVNode("div", {
   "class": "title"
-}, "Argumentos:", -1);
+}, "Arguments:", -1);
 
 var ReportFormvue_type_script_setup_true_lang_js_hoisted_5 = {
   "class": "report-form-button-container"
@@ -35539,6 +35560,9 @@ var ReportFormvue_type_script_setup_true_lang_js_hoisted_6 = ["disabled"];
 
     var props = __props;
     var ComponentTypeMap = (_ComponentTypeMap = {}, _defineProperty(_ComponentTypeMap, ArgumentType.TEXT, TextInput), _defineProperty(_ComponentTypeMap, ArgumentType.DATE, DateInput), _ComponentTypeMap);
+    var allowSendingEmail = computed(function () {
+      return props.report.actions.indexOf("Send Email") !== -1;
+    });
     var emails = reactivity_esm_bundler_ref(props.report.emails || "");
     var hasEmails = computed(function () {
       return emails.value.length;
@@ -35586,14 +35610,15 @@ var ReportFormvue_type_script_setup_true_lang_js_hoisted_6 = ["disabled"];
                 return arg.value = $event;
               }
             }, null, 40, ["label", "value", "onUpdate:value"]);
-          }), 128))])) : createCommentVNode("", true), runtime_core_esm_bundler_createVNode(unref(TextAreaInput), {
+          }), 128))])) : createCommentVNode("", true), unref(allowSendingEmail) ? (openBlock(), createBlock(unref(TextAreaInput), {
+            key: 2,
             "class": "report-input-emails",
             label: "Emails:",
             value: emails.value,
             "onUpdate:value": _cache[0] || (_cache[0] = function ($event) {
               return emails.value = $event;
             })
-          }, null, 8, ["value"])], 32)];
+          }, null, 8, ["value"])) : createCommentVNode("", true)], 32)];
         }),
         "dialog-footer": withCtx(function () {
           return [createBaseVNode("div", ReportFormvue_type_script_setup_true_lang_js_hoisted_5, [createBaseVNode("button", {
@@ -35604,12 +35629,13 @@ var ReportFormvue_type_script_setup_true_lang_js_hoisted_6 = ["disabled"];
             value: "submit",
             "class": "report-form-button btn btn-small btn-success",
             onClick: downloadReport
-          }, "Download "), createBaseVNode("button", {
+          }, "Download "), unref(allowSendingEmail) ? (openBlock(), createElementBlock("button", {
+            key: 0,
             value: "submit",
             "class": "report-form-button btn btn-small btn-success",
             disabled: !unref(hasEmails),
             onClick: sendReportByEmail
-          }, "Send by Email ", 8, ReportFormvue_type_script_setup_true_lang_js_hoisted_6)])];
+          }, "Send by Email ", 8, ReportFormvue_type_script_setup_true_lang_js_hoisted_6)) : createCommentVNode("", true)])];
         }),
         _: 1
       });
@@ -35618,10 +35644,10 @@ var ReportFormvue_type_script_setup_true_lang_js_hoisted_6 = ["disabled"];
 });
 ;// CONCATENATED MODULE: ./src/components/ReportForm.vue?vue&type=script&setup=true&lang=js
  
-;// CONCATENATED MODULE: ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-67.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-67.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-67.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-67.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./src/components/ReportForm.vue?vue&type=style&index=0&id=25cb20ae&lang=scss
+;// CONCATENATED MODULE: ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-67.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-67.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-67.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-67.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./src/components/ReportForm.vue?vue&type=style&index=0&id=c59e1eb6&lang=scss
 // extracted by mini-css-extract-plugin
 
-;// CONCATENATED MODULE: ./src/components/ReportForm.vue?vue&type=style&index=0&id=25cb20ae&lang=scss
+;// CONCATENATED MODULE: ./src/components/ReportForm.vue?vue&type=style&index=0&id=c59e1eb6&lang=scss
 
 ;// CONCATENATED MODULE: ./src/components/ReportForm.vue
 

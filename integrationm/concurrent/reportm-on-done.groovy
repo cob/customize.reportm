@@ -35,8 +35,8 @@ actions.each {
                         ? TemplateUtils.apply(emails, finalVariables)
                         : TemplateUtils.apply(reportmInstance.value("Destinations"), finalVariables)
 
-                def emailSubject = TemplateUtils.apply(reportmInstance.value("Subject"), finalVariables)
-                def emailBody = TemplateUtils.apply(reportmInstance.value("Body"), finalVariables)
+                def emailSubject = TemplateUtils.apply(reportmInstance.value("Subject") ?: "{{REPORT_NAME}}", finalVariables)
+                def emailBody = TemplateUtils.apply(reportmInstance.value("Body") ?: "{{REPORT_DESCRIPTION}}", finalVariables)
 
                 email.send(emailSubject, emailBody + "<br><br>", [to: emailAddresses.split(";").findAll { it != null }, attachments: [reportFile]])
                 log.info("Report email sent. {{reportFile: ${reportFile}, emails: ${emailAddresses} }} ")
