@@ -175,6 +175,7 @@ export class Report implements ReportAttributes {
 
         const extracts = emailBuilderField.fields.filter((field: any) => field.fieldDefinition.name === "Variable Mapping")
           .map((varMap: any) => ({ name: varMap.fields[0].value, cellReference: varMap.fields[1].value }))
+          .filter((variable: any) => variable.name && variable.cellReference)
           .reduce((ac: any, cv: any) => {
               ac[cv.name] = cv.cellReference
               return ac
