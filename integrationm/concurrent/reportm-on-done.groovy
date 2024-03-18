@@ -1,3 +1,4 @@
+import com.cultofbits.customizations.reportm.utils.MarkdownProcessor
 import com.cultofbits.customizations.reportm.utils.TemplateUtils
 import groovy.json.JsonSlurper
 
@@ -17,8 +18,8 @@ if (!reportInstanceResponse.success()) {
 def reportmInstance = reportInstanceResponse.getBody()
 
 def actions = reportmInstance.value("Trigger") == "MANUAL" || reportmInstance.value("Trigger") == "SCHEDULED"
-                ? reportmInstance.values("Trigger Actions")
-                : reportmInstance.values("Event Actions")
+        ? reportmInstance.values("Trigger Actions")
+        : reportmInstance.values("Event Actions")
 
 actions.each {
     action ->
@@ -31,14 +32,18 @@ actions.each {
                 finalVariables["REPORT_SOURCE_INSTANCE_ID"] = argsMap["sourceInstanceId"]
                 finalVariables.putAll(variables)
 
-                def emailAddresses = emails != null
-                        ? TemplateUtils.apply(emails, finalVariables)
-                        : TemplateUtils.apply(reportmInstance.value("Destinations"), finalVariables)
-
+                def emailAddresses = TemplateUtils.apply(emails != null ? emails : reportmInstance.value("Destinations"), finalVariables)
                 def emailSubject = TemplateUtils.apply(reportmInstance.value("Subject") ?: "{{REPORT_NAME}}", finalVariables)
                 def emailBody = TemplateUtils.apply(reportmInstance.value("Body") ?: "{{REPORT_DESCRIPTION}}", finalVariables)
 
-                email.send(emailSubject, emailBody + "<br><br>", [to: emailAddresses.split(";").findAll { it != null }, attachments: [reportFile]])
+                def markdownProcessor = new MarkdownProcessor()
+
+                email.send(
+                        emailSubject,
+                        markdownProcessor.toHtml(emailBody + "<br><br>"),
+                        [to: emailAddresses.split(";").findAll { it != null }, attachments: [reportFile]]
+                )
+
                 log.info("Report email sent. {{reportFile: ${reportFile}, emails: ${emailAddresses} }} ")
 
                 return
