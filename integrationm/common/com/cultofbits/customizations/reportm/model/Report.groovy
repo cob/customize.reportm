@@ -32,6 +32,7 @@ class Report {
         recordmInstance.fields
                 .findAll { fieldInfo -> fieldInfo.fieldDefinition.name == "Variable Mapping" }
                 .collect { field -> field.fields }
+                .findAll { fields -> fields.size() > 0 && fields[0].value != null && fields[1].value != null }
                 .each { fields -> extracts[fields[0].value] = fields[1].value }
 
         def trigger = recordmInstance.value("Trigger")
