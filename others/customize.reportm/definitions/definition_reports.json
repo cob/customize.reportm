@@ -1,7 +1,7 @@
 {
   "id": null,
   "name": "Reports",
-  "description": "@COB v3.0.1 Beta",
+  "description": "@COB v3.0.9",
   "duplicable": null,
   "state": "enabled",
   "fieldDefinitions": [
@@ -216,6 +216,15 @@
           "configuration": {
             "description": "",
             "keys": {
+              "InstanceDescription": {},
+              "Expanded": {
+                "args": {}
+              },
+              "Help": {
+                "args": [
+                  "How the report is to be generated"
+                ]
+              },
               "Select": {
                 "args": [
                   "MANUAL",
@@ -223,16 +232,7 @@
                   "SCHEDULED"
                 ],
                 "default": "MANUAL"
-              },
-              "Help": {
-                "args": [
-                  "How the report is to be generated"
-                ]
-              },
-              "Expanded": {
-                "args": {}
-              },
-              "InstanceDescription": {}
+              }
             },
             "extensions": {}
           },
@@ -247,18 +247,18 @@
         },
         {
           "id": null,
-          "name": "Definição",
+          "name": "Definition",
           "required": null,
           "description": "$definitions $instanceDescription $help[Definition where the generate report button will be shown]",
           "configuration": {
             "description": "",
             "keys": {
+              "InstanceDescription": {},
               "Help": {
                 "args": [
                   "Definition where the generate report button will be shown"
                 ]
-              },
-              "InstanceDescription": {}
+              }
             },
             "extensions": {
               "$definitions": {}
@@ -278,73 +278,6 @@
           "duplicable": false,
           "fields": [],
           "order": 9,
-          "restricted": false,
-          "rootField": false,
-          "defaultValue": null
-        },
-        {
-          "id": null,
-          "name": "Definição",
-          "required": "mandatory",
-          "description": "$definitions $instanceDescription $help[Definition where the generate report button will be shown]",
-          "configuration": {
-            "description": "",
-            "keys": {
-              "Help": {
-                "args": [
-                  "Definition where the generate report button will be shown"
-                ]
-              },
-              "InstanceDescription": {}
-            },
-            "extensions": {
-              "$definitions": {}
-            }
-          },
-          "condition": "Trigger=EVENT",
-          "visibilityCondition": {
-            "type": "Equal",
-            "value": [
-              "EVENT"
-            ],
-            "matcher": {
-              "type": "Name",
-              "name": "Trigger"
-            }
-          },
-          "duplicable": false,
-          "fields": [],
-          "order": 10,
-          "restricted": false,
-          "rootField": false,
-          "defaultValue": null
-        },
-        {
-          "id": null,
-          "name": "Condition",
-          "required": null,
-          "description": "$text Specify a condition to evaluate if the report is to be sent or not",
-          "configuration": {
-            "description": "Specify a condition to evaluate if the report is to be sent or not",
-            "keys": {},
-            "extensions": {
-              "$text": {}
-            }
-          },
-          "condition": "Trigger=EVENT",
-          "visibilityCondition": {
-            "type": "Equal",
-            "value": [
-              "EVENT"
-            ],
-            "matcher": {
-              "type": "Name",
-              "name": "Trigger"
-            }
-          },
-          "duplicable": false,
-          "fields": [],
-          "order": 11,
           "restricted": false,
           "rootField": false,
           "defaultValue": null
@@ -391,7 +324,7 @@
               "visibilityCondition": null,
               "duplicable": false,
               "fields": [],
-              "order": 13,
+              "order": 11,
               "restricted": false,
               "rootField": false,
               "defaultValue": null
@@ -423,13 +356,80 @@
               "visibilityCondition": null,
               "duplicable": false,
               "fields": [],
-              "order": 14,
+              "order": 12,
               "restricted": false,
               "rootField": false,
               "defaultValue": "TEXT"
             }
           ],
-          "order": 12,
+          "order": 10,
+          "restricted": false,
+          "rootField": false,
+          "defaultValue": null
+        },
+        {
+          "id": null,
+          "name": "Definition",
+          "required": "mandatory",
+          "description": "$definitions $instanceDescription $help[Definition where the generate report button will be shown]",
+          "configuration": {
+            "description": "",
+            "keys": {
+              "InstanceDescription": {},
+              "Help": {
+                "args": [
+                  "Definition where the generate report button will be shown"
+                ]
+              }
+            },
+            "extensions": {
+              "$definitions": {}
+            }
+          },
+          "condition": "Trigger=EVENT",
+          "visibilityCondition": {
+            "type": "Equal",
+            "value": [
+              "EVENT"
+            ],
+            "matcher": {
+              "type": "Name",
+              "name": "Trigger"
+            }
+          },
+          "duplicable": false,
+          "fields": [],
+          "order": 13,
+          "restricted": false,
+          "rootField": false,
+          "defaultValue": null
+        },
+        {
+          "id": null,
+          "name": "Condition",
+          "required": null,
+          "description": "$text Specify a condition to evaluate if the report is to be sent or not",
+          "configuration": {
+            "description": "Specify a condition to evaluate if the report is to be sent or not",
+            "keys": {},
+            "extensions": {
+              "$text": {}
+            }
+          },
+          "condition": "Trigger=EVENT",
+          "visibilityCondition": {
+            "type": "Equal",
+            "value": [
+              "EVENT"
+            ],
+            "matcher": {
+              "type": "Name",
+              "name": "Trigger"
+            }
+          },
+          "duplicable": false,
+          "fields": [],
+          "order": 14,
           "restricted": false,
           "rootField": false,
           "defaultValue": null
@@ -442,6 +442,9 @@
           "configuration": {
             "description": "",
             "keys": {
+              "Expanded": {
+                "args": {}
+              },
               "Select": {
                 "args": [
                   "DAILY",
@@ -449,9 +452,6 @@
                   "MONTHLY"
                 ],
                 "default": null
-              },
-              "Expanded": {
-                "args": {}
               }
             },
             "extensions": {}
@@ -482,6 +482,8 @@
           "configuration": {
             "description": "",
             "keys": {
+              "InstanceDescription": {},
+              "Multiple": {},
               "Select": {
                 "args": [
                   "1",
@@ -517,9 +519,7 @@
                   "31"
                 ],
                 "default": null
-              },
-              "InstanceDescription": {},
-              "Multiple": {}
+              }
             },
             "extensions": {
               "$checkbox": {}
@@ -551,6 +551,8 @@
           "configuration": {
             "description": "",
             "keys": {
+              "InstanceDescription": {},
+              "Multiple": {},
               "Select": {
                 "args": [
                   "Monday",
@@ -562,9 +564,7 @@
                   "Sunday"
                 ],
                 "default": null
-              },
-              "InstanceDescription": {},
-              "Multiple": {}
+              }
             },
             "extensions": {
               "$checkbox": {}
@@ -596,6 +596,7 @@
           "configuration": {
             "description": "",
             "keys": {
+              "InstanceDescription": {},
               "Select": {
                 "args": [
                   "0h",
@@ -624,8 +625,7 @@
                   "23h"
                 ],
                 "default": null
-              },
-              "InstanceDescription": {}
+              }
             },
             "extensions": {}
           },
@@ -682,14 +682,14 @@
           "configuration": {
             "description": "",
             "keys": {
+              "Multiple": {},
               "Select": {
                 "args": [
                   "Send Email",
                   "Attach to Instance"
                 ],
                 "default": "Send Email"
-              },
-              "Multiple": {}
+              }
             },
             "extensions": {
               "$checkbox": {}
@@ -721,13 +721,13 @@
           "configuration": {
             "description": "",
             "keys": {
+              "Multiple": {},
               "Select": {
                 "args": [
                   "Send Email"
                 ],
                 "default": "Send Email"
-              },
-              "Multiple": {}
+              }
             },
             "extensions": {
               "$checkbox": {}
@@ -800,8 +800,10 @@
               "required": null,
               "description": "$group",
               "configuration": {
-                "description": null,
-                "keys": {},
+                "description": "",
+                "keys": {
+                  "Group": {}
+                },
                 "extensions": {}
               },
               "condition": null,
@@ -1021,6 +1023,7 @@
       "configuration": {
         "description": "",
         "keys": {
+          "InstanceDescription": {},
           "Link": {
             "args": {}
           },
@@ -1028,8 +1031,7 @@
             "args": [
               "'Executar'"
             ]
-          },
-          "InstanceDescription": {}
+          }
         },
         "extensions": {
           "$style": {
@@ -1044,225 +1046,6 @@
       "duplicable": false,
       "fields": [],
       "order": 32,
-      "restricted": false,
-      "rootField": true,
-      "defaultValue": null
-    },
-    {
-      "id": null,
-      "name": "Informação do Registo",
-      "required": null,
-      "description": "$group $style[dualColumn]",
-      "configuration": {
-        "description": "",
-        "keys": {
-          "Group": {}
-        },
-        "extensions": {
-          "$style": {
-            "args": [
-              "dualColumn"
-            ]
-          }
-        }
-      },
-      "condition": null,
-      "visibilityCondition": null,
-      "duplicable": false,
-      "fields": [
-        {
-          "id": null,
-          "name": "Column1",
-          "required": null,
-          "description": "$group $style[column] $expanded",
-          "configuration": {
-            "description": "",
-            "keys": {
-              "Expanded": {
-                "args": {}
-              },
-              "Group": {}
-            },
-            "extensions": {
-              "$style": {
-                "args": [
-                  "column"
-                ]
-              }
-            }
-          },
-          "condition": null,
-          "visibilityCondition": null,
-          "duplicable": false,
-          "fields": [
-            {
-              "id": null,
-              "name": "Criado por",
-              "required": null,
-              "description": "$audit.creator.uri $extRef(userm, /userm/user/search?q={{this}}*)",
-              "configuration": {
-                "description": "",
-                "keys": {
-                  "ExternalReference": {
-                    "args": {
-                      "product": "userm",
-                      "query": "/userm/user/search?q={{this}}*"
-                    }
-                  }
-                },
-                "extensions": {
-                  "$audit.creator.uri": {}
-                }
-              },
-              "condition": null,
-              "visibilityCondition": null,
-              "duplicable": false,
-              "fields": [
-                {
-                  "id": null,
-                  "name": "Username",
-                  "required": null,
-                  "description": "$auto.ref(Criado por).field(username)",
-                  "configuration": {
-                    "description": "",
-                    "keys": {
-                      "AutoRefField": {
-                        "args": {
-                          "source_field": "Criado por",
-                          "field_name": "username"
-                        }
-                      }
-                    },
-                    "extensions": {}
-                  },
-                  "condition": null,
-                  "visibilityCondition": null,
-                  "duplicable": false,
-                  "fields": [],
-                  "order": 36,
-                  "restricted": false,
-                  "rootField": false,
-                  "defaultValue": null
-                }
-              ],
-              "order": 35,
-              "restricted": false,
-              "rootField": false,
-              "defaultValue": null
-            },
-            {
-              "id": null,
-              "name": "Data Criação",
-              "required": null,
-              "description": "$audit.creator.time $date",
-              "configuration": {
-                "description": "",
-                "keys": {
-                  "Date": {}
-                },
-                "extensions": {
-                  "$audit.creator.time": {}
-                }
-              },
-              "condition": null,
-              "visibilityCondition": null,
-              "duplicable": false,
-              "fields": [],
-              "order": 37,
-              "restricted": false,
-              "rootField": false,
-              "defaultValue": null
-            }
-          ],
-          "order": 34,
-          "restricted": false,
-          "rootField": false,
-          "defaultValue": null
-        },
-        {
-          "id": null,
-          "name": "Column2",
-          "required": null,
-          "description": "$group $style[column] $expanded",
-          "configuration": {
-            "description": "",
-            "keys": {
-              "Expanded": {
-                "args": {}
-              },
-              "Group": {}
-            },
-            "extensions": {
-              "$style": {
-                "args": [
-                  "column"
-                ]
-              }
-            }
-          },
-          "condition": null,
-          "visibilityCondition": null,
-          "duplicable": false,
-          "fields": [
-            {
-              "id": null,
-              "name": "Alterado por",
-              "required": null,
-              "description": "$audit.updater.uri $extRef(userm, /userm/user/search?q={{this}}*)",
-              "configuration": {
-                "description": "",
-                "keys": {
-                  "ExternalReference": {
-                    "args": {
-                      "product": "userm",
-                      "query": "/userm/user/search?q={{this}}*"
-                    }
-                  }
-                },
-                "extensions": {
-                  "$audit.updater.uri": {}
-                }
-              },
-              "condition": null,
-              "visibilityCondition": null,
-              "duplicable": false,
-              "fields": [],
-              "order": 39,
-              "restricted": false,
-              "rootField": false,
-              "defaultValue": null
-            },
-            {
-              "id": null,
-              "name": "Data Alteração",
-              "required": null,
-              "description": "$audit.updater.time $date",
-              "configuration": {
-                "description": "",
-                "keys": {
-                  "Date": {}
-                },
-                "extensions": {
-                  "$audit.updater.time": {}
-                }
-              },
-              "condition": null,
-              "visibilityCondition": null,
-              "duplicable": false,
-              "fields": [],
-              "order": 40,
-              "restricted": false,
-              "rootField": false,
-              "defaultValue": null
-            }
-          ],
-          "order": 38,
-          "restricted": false,
-          "rootField": false,
-          "defaultValue": null
-        }
-      ],
-      "order": 33,
       "restricted": false,
       "rootField": true,
       "defaultValue": null

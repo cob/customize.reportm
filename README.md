@@ -23,7 +23,6 @@ Edit file `/etc/integrationm/services/com.cultofbits.intgrationm.service.propert
 ```text
 action.names=...,reportm,email
 action.reportm=reportm
-action.reportm.reportm.base-url=http://localhost:40580
 
 action.email=email
 action.email.email.default-sender=<the email address as default sender> (Required)

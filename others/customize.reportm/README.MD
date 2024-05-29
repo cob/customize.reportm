@@ -3,6 +3,13 @@
 
 ### Definition Upgrades:
 
+#### 3.0.9
+* Update `Reports` definition 
+
+```
+* Rename field definition `Definição` to `Definition`
+* Delete field definition `Informação do Registo`
+```
 
 #### 3.0.8
 * Use flexmark instead of markedj to generate the html from markdown 
