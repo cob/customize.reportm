@@ -136,6 +136,11 @@ function closeForm() {
       .report-form-row:last-child {
         margin-bottom: 20px;
       }
+
+      input[type='text'] {
+        width: 239px !important;
+        height: 23px !important;
+      }
     }
   }
 

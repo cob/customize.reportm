@@ -29,8 +29,16 @@ function updateDate(newDate){
   --dp-border-color: #ccc;
 }
 
+.dp__input_wrap {
+  width: 203px !important;
+}
+
 .dp__input {
-  width: 50% !important;
+  width: 100% !important;
   background-color: #fff !important;
+}
+
+.dp__clear_icon {
+  right: -45px;
 }
 </style>
