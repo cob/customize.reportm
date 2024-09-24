@@ -53,7 +53,7 @@ reportDefinitionCache.get(definition, { loadDefinitionReports(definition) })
 
             try {
                 if (report.evaluateCondition(msg, log)) {
-                    report.executeAsync()
+                    report.executeAsync(msg)
                 }
             } catch (Exception e) {
                 log.warn("Error evaluating condition of report. {{" +

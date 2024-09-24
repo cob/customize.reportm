@@ -60,9 +60,9 @@ class Report {
         return value
     }
 
-    def executeAsync() {
-        Map<String, Object> args = ["query": "id.raw:${id}".toString()]
-        def callbackUri = "http://localhost:40380/concurrent/reportm-on-done?reportId=${id}&sourceInstanceId=${id}"
+    def executeAsync(msg) {
+        Map<String, Object> args = ["query": "id.raw:${msg.id}".toString()]
+        def callbackUri = "http://localhost:40380/concurrent/reportm-on-done?reportId=${id}&sourceInstanceId=${msg.id}"
         reportm.generateAsync(reportTmplPath, args, extracts, callbackUri)
     }
 
