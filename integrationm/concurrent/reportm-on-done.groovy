@@ -19,7 +19,7 @@ def reportmInstance = reportInstanceResponse.getBody()
 
 def actions = reportmInstance.value("Trigger") == "MANUAL" || reportmInstance.value("Trigger") == "SCHEDULED"
         ? reportmInstance.values("Trigger Actions")
-        : reportmInstance.values("Event Actions")
+        : reportmInstance.value("Event Actions").split("\u0000")
 
 actions.each {
     action ->
