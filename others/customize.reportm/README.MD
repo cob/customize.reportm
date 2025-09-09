@@ -3,6 +3,15 @@
 
 ### Definition Upgrades:
 
+#### 3.1.0
+* Update `Reports` definition
+
+Add DATETIME option
+
+```
+Execution > [Trigger=MANUAL] > Arguments > Type : $[DATE,DATETIME,TEXT] $default(TEXT)
+```
+
 #### 3.0.9
 * Update `Reports` definition 
 
