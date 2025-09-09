@@ -2,6 +2,16 @@ cob.custom.customize.push(async function(core, utils, ui) {
 
     const REPORT_DEFINITION = "Reports";
 
+    core.customizeSaveBehaviors(REPORT_DEFINITION, [
+      {
+        name: "save",
+        icon: "icon-ok",
+      },
+      {
+        name: "save-edit",
+        icon: "icon-ok",
+      },
+    ]);
 
     // ************************************************************************
     // Special input field that will display all available definitions when
