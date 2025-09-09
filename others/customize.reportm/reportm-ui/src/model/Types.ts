@@ -1,6 +1,7 @@
 export enum ArgumentType {
     TEXT = "TEXT",
     DATE = "DATE",
+    DATETIME = "DATETIME",
 }
 
 export interface Argument {

@@ -61,7 +61,8 @@ import {Report} from "@/model/Report";
 import {computed, defineProps, ref} from "vue";
 import ModalDialog from "@/components/ModalDialog";
 import TextInput from "@/components/TextInput";
-import DateInput from "@/components/DateInput";
+import DateInput from "@/components/DateInput.vue";
+import DateTimeInput from "@/components/DateTimeInput.vue";
 import {ArgumentType} from "@/model/Types";
 import QueryInput from "@/components/QueryInput";
 import TextAreaInput from "@/components/TextAreaInput";
@@ -69,6 +70,7 @@ import TextAreaInput from "@/components/TextAreaInput";
 const ComponentTypeMap = {
   [ArgumentType.TEXT]: TextInput,
   [ArgumentType.DATE]: DateInput,
+  [ArgumentType.DATETIME]: DateTimeInput,
 }
 
 const props = defineProps({
