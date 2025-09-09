@@ -1,7 +1,7 @@
 {
   "id": null,
   "name": "Reports",
-  "description": "@COB v3.0.9",
+  "description": "@COB v3.1.0",
   "duplicable": null,
   "state": "enabled",
   "fieldDefinitions": [
@@ -11,7 +11,7 @@
       "required": null,
       "description": "$group $expanded",
       "configuration": {
-        "description": "",
+        "description": null,
         "keys": {
           "Expanded": {
             "args": {}
@@ -30,7 +30,7 @@
           "required": "mandatory",
           "description": "$instanceLabel",
           "configuration": {
-            "description": "",
+            "description": null,
             "keys": {
               "InstanceLabel": {}
             },
@@ -42,6 +42,7 @@
           "fields": [],
           "order": 1,
           "restricted": false,
+          "duplicablePath": false,
           "rootField": false,
           "defaultValue": null
         },
@@ -51,7 +52,7 @@
           "required": null,
           "description": "$instanceDescription $textarea",
           "configuration": {
-            "description": "",
+            "description": null,
             "keys": {
               "InstanceDescription": {}
             },
@@ -65,6 +66,7 @@
           "fields": [],
           "order": 2,
           "restricted": false,
+          "duplicablePath": false,
           "rootField": false,
           "defaultValue": null
         },
@@ -74,7 +76,7 @@
           "required": "mandatory",
           "description": "$file $help[Excel template file that will be used to generate the report]",
           "configuration": {
-            "description": "",
+            "description": null,
             "keys": {
               "Help": {
                 "args": [
@@ -91,12 +93,14 @@
           "fields": [],
           "order": 3,
           "restricted": false,
+          "duplicablePath": false,
           "rootField": false,
           "defaultValue": null
         }
       ],
       "order": 0,
       "restricted": false,
+      "duplicablePath": false,
       "rootField": true,
       "defaultValue": null
     },
@@ -106,7 +110,7 @@
       "required": null,
       "description": "$group $expanded",
       "configuration": {
-        "description": "",
+        "description": null,
         "keys": {
           "Expanded": {
             "args": {}
@@ -125,7 +129,7 @@
           "required": null,
           "description": "$extRef(userm,/userm/group/search?q={{this}}) $help[UserM group that has access to this report]",
           "configuration": {
-            "description": "",
+            "description": null,
             "keys": {
               "Help": {
                 "args": [
@@ -151,7 +155,7 @@
               "required": null,
               "description": "$auto.ref(UserM Group).field(name)  $style[hide]",
               "configuration": {
-                "description": "",
+                "description": null,
                 "keys": {
                   "AutoRefField": {
                     "args": {
@@ -174,18 +178,21 @@
               "fields": [],
               "order": 6,
               "restricted": false,
+              "duplicablePath": true,
               "rootField": false,
               "defaultValue": null
             }
           ],
           "order": 5,
           "restricted": false,
+          "duplicablePath": true,
           "rootField": false,
           "defaultValue": null
         }
       ],
       "order": 4,
       "restricted": false,
+      "duplicablePath": false,
       "rootField": true,
       "defaultValue": null
     },
@@ -195,7 +202,7 @@
       "required": null,
       "description": "$group $expanded",
       "configuration": {
-        "description": "",
+        "description": null,
         "keys": {
           "Expanded": {
             "args": {}
@@ -214,16 +221,15 @@
           "required": "mandatory",
           "description": "$[*MANUAL,EVENT,SCHEDULED] $expanded $instanceDescription $help[How the report is to be generated]",
           "configuration": {
-            "description": "",
+            "description": null,
             "keys": {
-              "InstanceDescription": {},
-              "Expanded": {
-                "args": {}
-              },
               "Help": {
                 "args": [
                   "How the report is to be generated"
                 ]
+              },
+              "Expanded": {
+                "args": {}
               },
               "Select": {
                 "args": [
@@ -232,7 +238,8 @@
                   "SCHEDULED"
                 ],
                 "default": "MANUAL"
-              }
+              },
+              "InstanceDescription": {}
             },
             "extensions": {}
           },
@@ -242,6 +249,7 @@
           "fields": [],
           "order": 8,
           "restricted": false,
+          "duplicablePath": false,
           "rootField": false,
           "defaultValue": "MANUAL"
         },
@@ -251,14 +259,14 @@
           "required": null,
           "description": "$definitions $instanceDescription $help[Definition where the generate report button will be shown]",
           "configuration": {
-            "description": "",
+            "description": null,
             "keys": {
-              "InstanceDescription": {},
               "Help": {
                 "args": [
                   "Definition where the generate report button will be shown"
                 ]
-              }
+              },
+              "InstanceDescription": {}
             },
             "extensions": {
               "$definitions": {}
@@ -279,6 +287,7 @@
           "fields": [],
           "order": 9,
           "restricted": false,
+          "duplicablePath": false,
           "rootField": false,
           "defaultValue": null
         },
@@ -288,7 +297,7 @@
           "required": null,
           "description": "$group $expanded",
           "configuration": {
-            "description": "",
+            "description": null,
             "keys": {
               "Expanded": {
                 "args": {}
@@ -326,6 +335,7 @@
               "fields": [],
               "order": 11,
               "restricted": false,
+              "duplicablePath": true,
               "rootField": false,
               "defaultValue": null
             },
@@ -333,21 +343,22 @@
               "id": null,
               "name": "Type",
               "required": null,
-              "description": "$[DATE,TEXT] $default(TEXT)",
+              "description": "$[DATE,DATETIME,TEXT] $default(TEXT)",
               "configuration": {
-                "description": "",
+                "description": null,
                 "keys": {
+                  "Select": {
+                    "args": [
+                      "DATE",
+                      "DATETIME",
+                      "TEXT"
+                    ],
+                    "default": null
+                  },
                   "Default": {
                     "args": {
                       "value": "TEXT"
                     }
-                  },
-                  "Select": {
-                    "args": [
-                      "DATE",
-                      "TEXT"
-                    ],
-                    "default": null
                   }
                 },
                 "extensions": {}
@@ -358,12 +369,14 @@
               "fields": [],
               "order": 12,
               "restricted": false,
+              "duplicablePath": true,
               "rootField": false,
               "defaultValue": "TEXT"
             }
           ],
           "order": 10,
           "restricted": false,
+          "duplicablePath": true,
           "rootField": false,
           "defaultValue": null
         },
@@ -373,14 +386,14 @@
           "required": "mandatory",
           "description": "$definitions $instanceDescription $help[Definition where the generate report button will be shown]",
           "configuration": {
-            "description": "",
+            "description": null,
             "keys": {
-              "InstanceDescription": {},
               "Help": {
                 "args": [
                   "Definition where the generate report button will be shown"
                 ]
-              }
+              },
+              "InstanceDescription": {}
             },
             "extensions": {
               "$definitions": {}
@@ -401,6 +414,7 @@
           "fields": [],
           "order": 13,
           "restricted": false,
+          "duplicablePath": false,
           "rootField": false,
           "defaultValue": null
         },
@@ -431,6 +445,7 @@
           "fields": [],
           "order": 14,
           "restricted": false,
+          "duplicablePath": false,
           "rootField": false,
           "defaultValue": null
         },
@@ -440,7 +455,7 @@
           "required": "mandatory",
           "description": "$[DAILY,WEEKLY,MONTHLY] $expanded",
           "configuration": {
-            "description": "",
+            "description": null,
             "keys": {
               "Expanded": {
                 "args": {}
@@ -471,6 +486,7 @@
           "fields": [],
           "order": 15,
           "restricted": false,
+          "duplicablePath": false,
           "rootField": false,
           "defaultValue": null
         },
@@ -480,9 +496,8 @@
           "required": "mandatory",
           "description": "$[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31] $checkbox $multiple $instanceDescription",
           "configuration": {
-            "description": "",
+            "description": null,
             "keys": {
-              "InstanceDescription": {},
               "Multiple": {},
               "Select": {
                 "args": [
@@ -519,7 +534,8 @@
                   "31"
                 ],
                 "default": null
-              }
+              },
+              "InstanceDescription": {}
             },
             "extensions": {
               "$checkbox": {}
@@ -540,6 +556,7 @@
           "fields": [],
           "order": 16,
           "restricted": false,
+          "duplicablePath": false,
           "rootField": false,
           "defaultValue": null
         },
@@ -549,9 +566,8 @@
           "required": "mandatory",
           "description": "$[Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday] $checkbox $multiple $instanceDescription",
           "configuration": {
-            "description": "",
+            "description": null,
             "keys": {
-              "InstanceDescription": {},
               "Multiple": {},
               "Select": {
                 "args": [
@@ -564,7 +580,8 @@
                   "Sunday"
                 ],
                 "default": null
-              }
+              },
+              "InstanceDescription": {}
             },
             "extensions": {
               "$checkbox": {}
@@ -585,6 +602,7 @@
           "fields": [],
           "order": 17,
           "restricted": false,
+          "duplicablePath": false,
           "rootField": false,
           "defaultValue": null
         },
@@ -594,9 +612,8 @@
           "required": "mandatory",
           "description": "$[0h,1h,2h,3h,4h,5h,6h,7h,8h,9h,10h,11h,12h,13h,14h,15h,16h,17h,18h,19h,20h,21h,22h,23h] $instanceDescription",
           "configuration": {
-            "description": "",
+            "description": null,
             "keys": {
-              "InstanceDescription": {},
               "Select": {
                 "args": [
                   "0h",
@@ -625,7 +642,8 @@
                   "23h"
                 ],
                 "default": null
-              }
+              },
+              "InstanceDescription": {}
             },
             "extensions": {}
           },
@@ -646,12 +664,14 @@
           "fields": [],
           "order": 18,
           "restricted": false,
+          "duplicablePath": false,
           "rootField": false,
           "defaultValue": null
         }
       ],
       "order": 7,
       "restricted": false,
+      "duplicablePath": false,
       "rootField": true,
       "defaultValue": null
     },
@@ -661,7 +681,7 @@
       "required": null,
       "description": "$group $expanded",
       "configuration": {
-        "description": "",
+        "description": null,
         "keys": {
           "Expanded": {
             "args": {}
@@ -680,7 +700,7 @@
           "required": null,
           "description": "$[*Send Email,Attach to Instance]  $checkbox $multiple",
           "configuration": {
-            "description": "",
+            "description": null,
             "keys": {
               "Multiple": {},
               "Select": {
@@ -710,6 +730,7 @@
           "fields": [],
           "order": 20,
           "restricted": false,
+          "duplicablePath": false,
           "rootField": false,
           "defaultValue": "Send Email"
         },
@@ -719,7 +740,7 @@
           "required": null,
           "description": "$[*Send Email] $checkbox $multiple",
           "configuration": {
-            "description": "",
+            "description": null,
             "keys": {
               "Multiple": {},
               "Select": {
@@ -748,6 +769,7 @@
           "fields": [],
           "order": 21,
           "restricted": false,
+          "duplicablePath": false,
           "rootField": false,
           "defaultValue": "Send Email"
         },
@@ -757,7 +779,7 @@
           "required": null,
           "description": "$group $expanded",
           "configuration": {
-            "description": "",
+            "description": null,
             "keys": {
               "Expanded": {
                 "args": {}
@@ -800,7 +822,7 @@
               "required": null,
               "description": "$group",
               "configuration": {
-                "description": "",
+                "description": null,
                 "keys": {
                   "Group": {}
                 },
@@ -826,6 +848,7 @@
                   "fields": [],
                   "order": 24,
                   "restricted": false,
+                  "duplicablePath": true,
                   "rootField": false,
                   "defaultValue": null
                 },
@@ -845,12 +868,14 @@
                   "fields": [],
                   "order": 25,
                   "restricted": false,
+                  "duplicablePath": true,
                   "rootField": false,
                   "defaultValue": null
                 }
               ],
               "order": 23,
               "restricted": false,
+              "duplicablePath": true,
               "rootField": false,
               "defaultValue": null
             },
@@ -860,7 +885,7 @@
               "required": null,
               "description": "$group",
               "configuration": {
-                "description": "",
+                "description": null,
                 "keys": {
                   "Group": {}
                 },
@@ -872,6 +897,7 @@
               "fields": [],
               "order": 26,
               "restricted": false,
+              "duplicablePath": false,
               "rootField": false,
               "defaultValue": null
             },
@@ -895,6 +921,7 @@
               "fields": [],
               "order": 27,
               "restricted": false,
+              "duplicablePath": false,
               "rootField": false,
               "defaultValue": null
             },
@@ -920,6 +947,7 @@
               "fields": [],
               "order": 28,
               "restricted": false,
+              "duplicablePath": false,
               "rootField": false,
               "defaultValue": "{{REPORT_NAME}}"
             },
@@ -947,12 +975,14 @@
               "fields": [],
               "order": 29,
               "restricted": false,
+              "duplicablePath": false,
               "rootField": false,
               "defaultValue": "{{REPORT_DESCRIPTION}}"
             }
           ],
           "order": 22,
           "restricted": false,
+          "duplicablePath": false,
           "rootField": false,
           "defaultValue": null
         },
@@ -962,7 +992,7 @@
           "required": null,
           "description": "$group $expanded",
           "configuration": {
-            "description": "",
+            "description": null,
             "keys": {
               "Expanded": {
                 "args": {}
@@ -1000,18 +1030,21 @@
               "fields": [],
               "order": 31,
               "restricted": false,
+              "duplicablePath": false,
               "rootField": false,
               "defaultValue": null
             }
           ],
           "order": 30,
           "restricted": false,
+          "duplicablePath": false,
           "rootField": false,
           "defaultValue": null
         }
       ],
       "order": 19,
       "restricted": false,
+      "duplicablePath": false,
       "rootField": true,
       "defaultValue": null
     },
@@ -1021,17 +1054,17 @@
       "required": null,
       "description": "$auto.text(id).join('Executar') $link $style[hide] $instanceDescription",
       "configuration": {
-        "description": "",
+        "description": null,
         "keys": {
-          "InstanceDescription": {},
-          "Link": {
-            "args": {}
-          },
           "AutoTextJoin": {
             "args": [
               "'Executar'"
             ]
-          }
+          },
+          "Link": {
+            "args": {}
+          },
+          "InstanceDescription": {}
         },
         "extensions": {
           "$style": {
@@ -1047,6 +1080,7 @@
       "fields": [],
       "order": 32,
       "restricted": false,
+      "duplicablePath": false,
       "rootField": true,
       "defaultValue": null
     }
