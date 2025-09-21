@@ -23,8 +23,12 @@ const date = ref();
 
 function updateDate(newDate) {
   if (!newDate) return;
-  date.value = newDate;
-  emits("update:value", newDate.getTime());
+
+  // Set hours, minutes and seconds to 0
+  var correctedDate = new Date(newDate.getFullYear(), newDate.getMonth(), newDate.getDate(), 0, 0, 0, 0);
+
+  date.value = correctedDate;
+  emits("update:value", correctedDate.getTime());
 }
 
 </script>
