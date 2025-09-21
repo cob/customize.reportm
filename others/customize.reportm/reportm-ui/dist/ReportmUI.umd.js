@@ -42427,9 +42427,11 @@ var DateInputvue_type_script_setup_true_lang_js_hoisted_2 = {
     var date = reactivity_esm_bundler_ref();
 
     function updateDate(newDate) {
-      if (!newDate) return;
-      date.value = newDate;
-      emits("update:value", newDate.getTime());
+      if (!newDate) return; // Set hours, minutes and seconds to 0
+
+      var correctedDate = new Date(newDate.getFullYear(), newDate.getMonth(), newDate.getDate(), 0, 0, 0, 0);
+      date.value = correctedDate;
+      emits("update:value", correctedDate.getTime());
     }
 
     return function (_ctx, _cache) {
@@ -42449,10 +42451,10 @@ var DateInputvue_type_script_setup_true_lang_js_hoisted_2 = {
 });
 ;// CONCATENATED MODULE: ./src/components/DateInput.vue?vue&type=script&setup=true&lang=js
  
-;// CONCATENATED MODULE: ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-67.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-67.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-67.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-67.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./src/components/DateInput.vue?vue&type=style&index=0&id=c1a50a02&lang=scss
+;// CONCATENATED MODULE: ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-67.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-67.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-67.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-67.use[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./src/components/DateInput.vue?vue&type=style&index=0&id=eaa24890&lang=scss
 // extracted by mini-css-extract-plugin
 
-;// CONCATENATED MODULE: ./src/components/DateInput.vue?vue&type=style&index=0&id=c1a50a02&lang=scss
+;// CONCATENATED MODULE: ./src/components/DateInput.vue?vue&type=style&index=0&id=eaa24890&lang=scss
 
 ;// CONCATENATED MODULE: ./src/components/DateInput.vue
 
