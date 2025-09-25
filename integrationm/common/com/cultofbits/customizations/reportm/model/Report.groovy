@@ -60,6 +60,14 @@ class Report {
         return value
     }
 
+    def execute(instanceId){
+        Map<String, Object> args = instanceId != null
+                ? ["query": "id.raw:${instanceId}".toString()]
+                : [:]
+
+        return reportm.generate(reportTmplPath, args)
+    }
+
     def executeAsync(instanceId) {
         Map<String, Object> args = instanceId != null
                 ? ["query": "id.raw:${instanceId}".toString()]
