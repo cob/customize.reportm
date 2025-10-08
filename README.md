@@ -37,7 +37,7 @@ crontab -e
 0 1 * * * find /tmp/*.xlsx -type f -mtime +2 -delete
 
 # Reportm: trigger very hour
-0 * * * * /opt/others/scripts/generate-report.sh
+0 * * * * curl -sS -b ~/.cob-cookie -X POST http://localhost:40380/concurrent/reportm-generate-scheduled
 
 ```
 
