@@ -213,3 +213,28 @@ export class Report implements ReportAttributes {
         return `${parseInt(String(instanceId / 10000), 10)}/${instanceId}/${field.fieldDefinition.id}/${field.value}`
     }
 }
+
+declare global {
+    interface Window {
+      cob: {
+        reportm?: {
+          Report: typeof Report
+          generateReport: (reportId: number, reportQuery: ReportQuery | undefined, cobApp: CobApp) => Promise<void>
+        }
+      }
+    }
+  }
+  
+  window.cob = window.cob || {};
+  
+  window.cob.reportm = {
+    Report: Report,
+    generateReport: async (reportId: number, reportQuery: ReportQuery | undefined, cobApp: CobApp) => {
+      const report = await Report.getReportInstance({
+        reportId,
+        reportQuery,
+        containerId: ''
+      }, cobApp);
+      report.generateAndDownloadReport();
+    }
+  };
