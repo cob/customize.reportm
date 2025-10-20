@@ -25331,6 +25331,42 @@ var Report = /*#__PURE__*/function () {
 
   return Report;
 }();
+window.cob = window.cob || {};
+window.cob.reportm = {
+  Report: Report,
+  generateReport: function () {
+    var _generateReport = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(reportId, reportQuery, cobApp) {
+      var report;
+      return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.next = 2;
+              return Report.getReportInstance({
+                reportId: reportId,
+                reportQuery: reportQuery,
+                containerId: ''
+              }, cobApp);
+
+            case 2:
+              report = _context3.sent;
+              report.generateAndDownloadReport();
+
+            case 4:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }));
+
+    function generateReport(_x4, _x5, _x6) {
+      return _generateReport.apply(this, arguments);
+    }
+
+    return generateReport;
+  }()
+};
 ;// CONCATENATED MODULE: ./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib/index.js??clonedRuleSet-40.use[1]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./src/components/ModalDialog.vue?vue&type=script&setup=true&lang=js
 
 var _hoisted_1 = {
