@@ -4,6 +4,12 @@ Add capabilities to generate reports
 
 ## Setup:
 
+### As of version `4.0.0`, it is required to install the `customize.frontend.common` customization (1.13.0 onwards)
+
+```
+cob-cli customize commons
+```
+
 ### Add the definition to RecordM:
 
 ```text
