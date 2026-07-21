@@ -13,48 +13,6 @@ cob.custom.customize.push(async function(core, utils, ui) {
       },
     ]);
 
-    // ************************************************************************
-    // Special input field that will display all available definitions when
-    // the field definition has the keyword $definitions
-    // ************************************************************************
-
-    const regex = /\$definitions/
-
-    core.customizeInstances(REPORT_DEFINITION, async (instance, presenter) => {
-        const definitionsSelectContainer = await loadDefinitions()
-            .then(definitions => definitions.map(def => `<option value="${def.name}">${def.name}</option>`).join(""))
-            .then(options => $(`<div><select class="js-select-definition"><option></option>${options}</select></div>`))
-
-        presenter.findFieldPs(fp => regex.test(fp.field.fieldDefinition.description))
-            .forEach(fp => {
-                const $input = fp.content().find(".field-value");
-
-                $input.css('display', 'none')
-                $input.after(definitionsSelectContainer.html())
-
-                // need to look for the input in the DOM so I can attach a listener
-                fp.content().find(".js-select-definition")
-                    .val(fp.getValue())
-                    .on('change', function() {
-                            $input.val(this.value)
-                        }
-                    )
-            })
-    })
-
-    async function loadDefinitions() {
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                url: `/recordm/recordm/definitions?included=disabled`,
-                method: "GET",
-                dataType: "json",
-                xhrFields: {withCredentials: true},
-                cache: false,
-                ignoreErrors: true,
-                complete: (jqXHR, textStatus) => resolve(jqXHR.responseJSON)
-            })
-        })
-    }
 
 
     // ************************************************************************
