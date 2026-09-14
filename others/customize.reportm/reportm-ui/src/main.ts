@@ -36,7 +36,7 @@ export default {executeReport}
 //         name: "Report name",
 //         description: "A simple description of the report",
 //         reportTmpl: "513/5138331/13518/relatorio-kpi-gt_20220512152842.xlsx",
-//         emails: "hugo.m.marcelino@gmail.com",
+//         emails: "test@cob.pt",
 //         args: [
 //             {
 //                 name: "Cpe",
